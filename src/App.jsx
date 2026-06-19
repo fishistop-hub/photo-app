@@ -104,9 +104,11 @@ function WelcomeScreen({ eventName, onStart }) {
       </button>
       <p style={styles.subCta}>Free · Instant · No app needed</p>
       <div style={styles.divider} />
-      <p style={styles.slogan}>✦ TASTE the TASTE of PHOTOGRAPHY ✦</p>
       <p style={styles.footer}>
         📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
+      </p>
+      <p style={styles.slogan}>
+        ✦ <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> the <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> of <strong style={{fontWeight:900, letterSpacing:2}}>PHOTOGRAPHY</strong> ✦
       </p>
     </div>
   );
@@ -424,13 +426,13 @@ const styles = {
     minHeight: "100vh",
     textAlign: "center",
   },
-  logoWrap: { marginBottom: 8 },
+  logoWrap: { marginBottom: 14 },
   brand: {
     color: BRAND.yellow,
     fontSize: 36,
     fontWeight: 900,
     letterSpacing: 8,
-    margin: 0,
+    margin: "0 0 4px",
     fontFamily: "'Oswald', 'Anton', 'Georgia', serif",
     textTransform: "uppercase",
   },
@@ -439,7 +441,7 @@ const styles = {
     fontSize: 13,
     letterSpacing: 6,
     textTransform: "uppercase",
-    margin: "4px 0 0",
+    margin: "0 0 0",
     fontFamily: "'Cormorant Garamond', 'Georgia', serif",
     fontStyle: "italic",
   },
@@ -458,7 +460,7 @@ const styles = {
   subCta: {
     color: BRAND.gray,
     fontSize: 12,
-    marginTop: 6,
+    marginTop: 8,
     marginBottom: 0,
     letterSpacing: 1,
   },
@@ -466,7 +468,7 @@ const styles = {
     width: 60,
     height: 1,
     background: `linear-gradient(to right, transparent, ${BRAND.yellow}, transparent)`,
-    margin: "12px auto",
+    margin: "18px auto",
     opacity: 0.4,
   },
   slogan: {
@@ -474,16 +476,16 @@ const styles = {
     fontSize: 12,
     fontStyle: "italic",
     letterSpacing: 1,
-    margin: "0 0 6px",
-    opacity: 0.8,
+    margin: "10px 0 0",
+    opacity: 0.85,
     textAlign: "center",
   },
   instruction: {
     color: BRAND.white,
     textAlign: "center",
     fontSize: 14,
-    lineHeight: 1.5,
-    margin: "0 0 16px",
+    lineHeight: 1.6,
+    margin: "0 0 18px",
     opacity: 0.85,
   },
   btnPrimary: {
@@ -513,7 +515,7 @@ const styles = {
   footer: {
     color: BRAND.gray,
     fontSize: 12,
-    marginTop: 4,
+    marginTop: 0,
     textAlign: "center",
   },
   backBtn: {
