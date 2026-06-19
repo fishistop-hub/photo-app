@@ -43,8 +43,8 @@ function WelcomeScreen({ eventName, onStart }) {
       <div style={styles.logoWrap}>
         <FishiLogo size={90} />
       </div>
-      <h1 style={styles.brand}>Fishi's Stop</h1>
-      <p style={styles.tagline}>Photography</p>
+      <h1 style={styles.brand}>Fishi Selfi</h1>
+      <p style={styles.tagline}>by Fishi's Stop Photography</p>
       {eventName && (
         <div style={styles.eventBadge}>
           <span style={styles.eventLabel}>Event</span>
@@ -58,7 +58,7 @@ function WelcomeScreen({ eventName, onStart }) {
         Find My Photos
       </button>
       <p style={styles.footer}>
-        📞 +91 99999 99999 &nbsp;|&nbsp; fishistop@gmail.com
+        📞 +91 80565 03037 &nbsp;|&nbsp; fishistop@gmail.com
       </p>
     </div>
   );
