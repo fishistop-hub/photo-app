@@ -105,7 +105,7 @@ function WelcomeScreen({ eventName, onStart }) {
         📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
       </p>
       <p style={styles.slogan}>
-        <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> the <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> of <strong style={{fontWeight:900, letterSpacing:2}}>PHOTOGRAPHY</strong>
+        <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> &nbsp; the &nbsp; <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> &nbsp; of &nbsp; <strong style={{fontWeight:900, letterSpacing:2}}>PHOTOGRAPHY</strong>
       </p>
     </div>
   );
