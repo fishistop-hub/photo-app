@@ -26,45 +26,47 @@ function FishiLogo({ size = 90 }) {
 // ── Doodle Background ───────────────────────────────────────────────────────
 function DoodleBg() {
   const items = [
-    // Camera body
-    { x: 5, y: 8, r: 0, el: <g><rect width="36" height="26" rx="4" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="18" cy="13" r="7" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="18" cy="13" r="3" fill="none" stroke="currentColor" strokeWidth="1"/><rect x="12" y="-4" width="12" height="5" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="30" cy="5" r="2" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
-    // Lens
-    { x: 70, y: 15, r: 15, el: <g><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="14" cy="14" r="9" fill="none" stroke="currentColor" strokeWidth="1"/><circle cx="14" cy="14" r="5" fill="none" stroke="currentColor" strokeWidth="1"/><line x1="1" y1="14" x2="4" y2="14" stroke="currentColor" strokeWidth="1"/><line x1="24" y1="14" x2="27" y2="14" stroke="currentColor" strokeWidth="1"/><line x1="14" y1="1" x2="14" y2="4" stroke="currentColor" strokeWidth="1"/><line x1="14" y1="24" x2="14" y2="27" stroke="currentColor" strokeWidth="1"/></g> },
-    // Tripod
-    { x: 40, y: 60, r: -10, el: <g><rect x="8" y="0" width="14" height="20" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><line x1="15" y1="20" x2="5" y2="40" stroke="currentColor" strokeWidth="1.5"/><line x1="15" y1="20" x2="15" y2="40" stroke="currentColor" strokeWidth="1.5"/><line x1="15" y1="20" x2="25" y2="40" stroke="currentColor" strokeWidth="1.5"/><line x1="5" y1="35" x2="25" y2="35" stroke="currentColor" strokeWidth="1"/></g> },
-    // Flash
-    { x: 80, y: 55, r: 5, el: <g><polygon points="12,0 4,14 10,14 2,28 18,10 11,10" fill="none" stroke="currentColor" strokeWidth="1.5"/></g> },
-    // Film roll
-    { x: 15, y: 45, r: -5, el: <g><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" fill="none" stroke="currentColor" strokeWidth="1.5"/><rect x="0" y="10" width="4" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="1"/><rect x="24" y="10" width="4" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
-    // Video camera
-    { x: 60, y: 75, r: 8, el: <g><rect width="28" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="1.5"/><polygon points="28,4 40,9 28,14" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="10" cy="9" r="4" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
-    // Star/sparkle
-    { x: 88, y: 30, r: 0, el: <g><line x1="8" y1="0" x2="8" y2="16" stroke="currentColor" strokeWidth="1.5"/><line x1="0" y1="8" x2="16" y2="8" stroke="currentColor" strokeWidth="1.5"/><line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" strokeWidth="1"/><line x1="14" y1="2" x2="2" y2="14" stroke="currentColor" strokeWidth="1"/></g> },
-    // Light bulb / studio light
-    { x: 25, y: 78, r: -8, el: <g><circle cx="10" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.5"/><line x1="10" y1="15" x2="10" y2="22" stroke="currentColor" strokeWidth="1.5"/><line x1="6" y1="18" x2="14" y2="18" stroke="currentColor" strokeWidth="1"/><line x1="0" y1="8" x2="-4" y2="4" stroke="currentColor" strokeWidth="1"/><line x1="20" y1="8" x2="24" y2="4" stroke="currentColor" strokeWidth="1"/><line x1="10" y1="0" x2="10" y2="-4" stroke="currentColor" strokeWidth="1"/></g> },
-    // Shutter icon
-    { x: 50, y: 20, r: 20, el: <g><circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" strokeWidth="1.5"/><line x1="10" y1="1" x2="10" y2="5" stroke="currentColor" strokeWidth="2"/><line x1="10" y1="15" x2="10" y2="19" stroke="currentColor" strokeWidth="2"/><line x1="1" y1="10" x2="5" y2="10" stroke="currentColor" strokeWidth="2"/><line x1="15" y1="10" x2="19" y2="10" stroke="currentColor" strokeWidth="2"/></g> },
-    // Small camera top right
-    { x: 78, y: 88, r: -15, el: <g><rect width="24" height="17" rx="3" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="12" cy="9" r="5" fill="none" stroke="currentColor" strokeWidth="1.5"/><rect x="7" y="-3" width="8" height="4" rx="1" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
+    // Film reel (top left)
+    { x: 2, y: 3, r: -10, size: 80, vb: "0 0 60 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><circle cx="30" cy="30" r="28"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="12" r="4"/><circle cx="30" cy="48" r="4"/><circle cx="12" cy="30" r="4"/><circle cx="48" cy="30" r="4"/><circle cx="16" cy="16" r="4"/><circle cx="44" cy="44" r="4"/><circle cx="44" cy="16" r="4"/><circle cx="16" cy="44" r="4"/><path d="M30 58 Q40 62 50 58" strokeWidth="1.5"/></g> },
+    // Clapperboard (top center-left)
+    { x: 28, y: 1, r: 8, size: 80, vb: "0 0 60 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="14" width="56" height="39" rx="3"/><rect x="2" y="6" width="56" height="12" rx="2"/><line x1="2" y1="6" x2="20" y2="18"/><line x1="18" y1="6" x2="36" y2="18"/><line x1="34" y1="6" x2="52" y2="18"/><text x="8" y="32" fontSize="6" stroke="currentColor" strokeWidth="0.5" fill="currentColor">PROD.</text><text x="8" y="40" fontSize="6" stroke="currentColor" strokeWidth="0.5" fill="currentColor">DIRECTOR</text><text x="8" y="48" fontSize="6" stroke="currentColor" strokeWidth="0.5" fill="currentColor">DATE</text><line x1="30" y1="26" x2="58" y2="26"/><line x1="30" y1="34" x2="58" y2="34"/><line x1="30" y1="42" x2="58" y2="42"/></g> },
+    // Spotlight top right
+    { x: 72, y: 2, r: 15, size: 85, vb: "0 0 65 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="10,4 55,18 55,42 10,56"/><rect x="2" y="4" width="12" height="52" rx="3"/><line x1="55" y1="30" x2="65" y2="20"/><line x1="55" y1="30" x2="65" y2="30"/><line x1="55" y1="30" x2="65" y2="40"/><line x1="55" y1="30" x2="62" y2="14"/><line x1="55" y1="30" x2="62" y2="46"/></g> },
+    // Video camera on tripod (center)
+    { x: 55, y: 10, r: -5, size: 90, vb: "0 0 60 70", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="4" y="8" width="36" height="24" rx="4"/><circle cx="20" cy="20" r="8"/><circle cx="20" cy="20" r="4"/><polygon points="40,12 56,18 40,24"/><rect x="10" y="4" width="8" height="6" rx="1"/><line x1="22" y1="32" x2="22" y2="44"/><line x1="22" y1="44" x2="8" y2="68"/><line x1="22" y1="44" x2="22" y2="68"/><line x1="22" y1="44" x2="36" y2="68"/><line x1="10" y1="60" x2="34" y2="60"/></g> },
+    // Studio spotlight left
+    { x: 1, y: 35, r: 10, size: 80, vb: "0 0 60 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="4,4 52,18 52,42 4,52"/><rect x="48" y="4" width="10" height="48" rx="3"/><line x1="4" y1="28" x2="-6" y2="18"/><line x1="4" y1="28" x2="-6" y2="28"/><line x1="4" y1="28" x2="-6" y2="38"/></g> },
+    // Microphone
+    { x: 30, y: 32, r: 0, size: 75, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="10" y="2" width="20" height="30" rx="10"/><path d="M4 26 Q4 46 20 46 Q36 46 36 26"/><line x1="20" y1="46" x2="20" y2="60"/><line x1="10" y1="60" x2="30" y2="60"/><line x1="14" y1="10" x2="26" y2="10"/><line x1="14" y1="16" x2="26" y2="16"/><line x1="14" y1="22" x2="26" y2="22"/></g> },
+    // Star (right side)
+    { x: 82, y: 38, r: 15, size: 70, vb: "0 0 50 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="25,2 31,18 48,18 35,29 40,46 25,36 10,46 15,29 2,18 19,18"/></g> },
+    // Film projector (bottom left)
+    { x: 3, y: 68, r: -8, size: 85, vb: "0 0 65 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="8" width="38" height="30" rx="4"/><circle cx="14" cy="23" r="10"/><circle cx="14" cy="23" r="5"/><circle cx="30" cy="23" r="6"/><circle cx="30" cy="23" r="3"/><polygon points="40,18 56,12 56,34 40,28"/><line x1="20" y1="38" x2="14" y2="52"/><line x1="22" y1="38" x2="22" y2="52"/><line x1="24" y1="38" x2="30" y2="52"/></g> },
+    // Curtains (bottom center)
+    { x: 35, y: 65, r: 0, size: 85, vb: "0 0 70 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><line x1="2" y1="2" x2="68" y2="2"/><path d="M2,2 Q8,20 4,35 Q6,48 10,58"/><path d="M20,2 Q14,20 18,35 Q16,48 12,58"/><path d="M50,2 Q56,20 52,35 Q54,48 58,58"/><path d="M68,2 Q62,20 66,35 Q64,48 60,58"/><path d="M10,58 Q16,54 20,58"/><path d="M50,58 Q56,54 60,58"/><ellipse cx="16" cy="8" rx="6" ry="4"/><ellipse cx="54" cy="8" rx="6" ry="4"/></g> },
+    // Trophy/Oscar (bottom right)
+    { x: 75, y: 65, r: 5, size: 80, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><ellipse cx="20" cy="12" rx="8" ry="10"/><line x1="14" y1="20" x2="10" y2="38"/><line x1="26" y1="20" x2="30" y2="38"/><ellipse cx="20" cy="40" rx="12" ry="4"/><rect x="12" y="44" width="16" height="6" rx="2"/><rect x="8" y="50" width="24" height="4" rx="2"/><line x1="6" y1="14" x2="2" y2="8"/><line x1="34" y1="14" x2="38" y2="8"/></g> },
+    // Music note (right)
+    { x: 85, y: 72, r: -10, size: 70, vb: "0 0 40 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><path d="M16 38 L16 10 L36 6 L36 18"/><ellipse cx="12" cy="40" rx="8" ry="5" transform="rotate(-15 12 40)"/><ellipse cx="32" cy="20" rx="8" ry="5" transform="rotate(-15 32 20)"/></g> },
+    // Small clapperboard bottom
+    { x: 50, y: 85, r: 12, size: 65, vb: "0 0 50 45", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="10" width="46" height="33" rx="3"/><rect x="2" y="4" width="46" height="10" rx="2"/><line x1="2" y1="4" x2="16" y2="14"/><line x1="14" y1="4" x2="28" y2="14"/><line x1="28" y1="4" x2="42" y2="14"/></g> },
   ];
 
   return (
-    <div style={{
-      position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
-      overflow: "hidden",
-    }}>
+    <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
       {items.map((item, i) => (
         <svg
           key={i}
-          width="60" height="60"
-          viewBox="0 0 40 40"
+          width={item.size}
+          height={item.size}
+          viewBox={item.vb}
           style={{
             position: "absolute",
             left: `${item.x}%`,
             top: `${item.y}%`,
             transform: `rotate(${item.r}deg)`,
             color: "#F5C842",
-            opacity: 0.07,
+            opacity: 0.09,
           }}
         >
           {item.el}
@@ -83,13 +85,16 @@ function WelcomeScreen({ eventName, onStart }) {
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by FISHI STOP</p>
-      <p style={styles.slogan}>" TASTE the TASTE of PHOTOGRAPHY "</p>
+      <p style={styles.slogan}>✦ TASTE the TASTE of PHOTOGRAPHY ✦</p>
+      <div style={styles.divider} />
       <p style={styles.instruction}>
-        Take a quick selfie — we'll find all your photos from this event instantly.
+        Snap a quick selfie — we'll find every photo of you from today's event in seconds.
       </p>
       <button style={styles.btnPrimary} onClick={onStart}>
-        Find My Photos
+        📸 &nbsp; Find My Photos
       </button>
+      <p style={styles.subCta}>Free · Instant · No app needed</p>
+      <div style={styles.divider} />
       <p style={styles.footer}>
         📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
       </p>
@@ -439,6 +444,19 @@ const styles = {
   },
   eventLabel: { color: BRAND.gray, fontSize: 11, letterSpacing: 2, textTransform: "uppercase" },
   eventName: { color: BRAND.yellow, fontSize: 16, fontWeight: 700 },
+  subCta: {
+    color: BRAND.gray,
+    fontSize: 12,
+    marginTop: 8,
+    letterSpacing: 1,
+  },
+  divider: {
+    width: 60,
+    height: 1,
+    background: `linear-gradient(to right, transparent, ${BRAND.yellow}, transparent)`,
+    margin: "16px auto",
+    opacity: 0.4,
+  },
   slogan: {
     color: BRAND.yellow,
     fontSize: 13,
