@@ -1,38 +1,25 @@
 import { useState, useRef, useCallback } from "react";
 
 const BRAND = {
-  green: "#2D3B2D",
-  greenLight: "#3a4d3a",
-  greenDark: "#1e2a1e",
+  green: "#263526",
+  greenLight: "#304530",
+  greenDark: "#182018",
   yellow: "#F5C842",
   yellowDim: "#c9a232",
   white: "#f5f5f0",
   gray: "#8a9a8a",
 };
 
-// ── Logo SVG (inline, no file dependency) ──────────────────────────────────
-function FishiLogo({ size = 64 }) {
+// ── Logo Image ──────────────────────────────────────────────────────────────
+function FishiLogo({ size = 90 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 200 200" fill="none">
-      <rect width="200" height="200" rx="24" fill={BRAND.green} />
-      {/* body */}
-      <ellipse cx="100" cy="130" rx="28" ry="35" fill={BRAND.yellow} />
-      {/* head */}
-      <circle cx="100" cy="82" r="26" fill={BRAND.yellow} />
-      {/* hair */}
-      <ellipse cx="100" cy="62" rx="22" ry="14" fill={BRAND.yellow} />
-      {/* camera */}
-      <rect x="78" y="95" width="44" height="30" rx="6" fill={BRAND.greenDark} stroke={BRAND.yellow} strokeWidth="2" />
-      <circle cx="100" cy="110" r="9" fill={BRAND.green} stroke={BRAND.yellow} strokeWidth="2" />
-      <circle cx="100" cy="110" r="5" fill={BRAND.yellow} opacity="0.6" />
-      {/* left arm */}
-      <line x1="78" y1="108" x2="58" y2="95" stroke={BRAND.yellow} strokeWidth="8" strokeLinecap="round" />
-      {/* right arm */}
-      <line x1="122" y1="108" x2="142" y2="120" stroke={BRAND.yellow} strokeWidth="8" strokeLinecap="round" />
-      {/* legs */}
-      <line x1="88" y1="162" x2="80" y2="185" stroke={BRAND.yellow} strokeWidth="8" strokeLinecap="round" />
-      <line x1="112" y1="162" x2="120" y2="185" stroke={BRAND.yellow} strokeWidth="8" strokeLinecap="round" />
-    </svg>
+    <img
+      src="/logo.jpg"
+      alt="Fishi Stop Logo"
+      width={size}
+      height={size}
+      style={{ objectFit: "contain", borderRadius: 16 }}
+    />
   );
 }
 
@@ -43,8 +30,8 @@ function WelcomeScreen({ eventName, onStart }) {
       <div style={styles.logoWrap}>
         <FishiLogo size={90} />
       </div>
-      <h1 style={styles.brand}>Fishi Selfi</h1>
-      <p style={styles.tagline}>by Fishi's Stop Photography</p>
+      <h1 style={styles.brand}>FISHI SELFI</h1>
+      <p style={styles.tagline}>by F I S H I</p>
       {eventName && (
         <div style={styles.eventBadge}>
           <span style={styles.eventLabel}>Event</span>
@@ -370,10 +357,12 @@ const styles = {
   logoWrap: { marginBottom: 12 },
   brand: {
     color: BRAND.yellow,
-    fontSize: 30,
+    fontSize: 32,
     fontWeight: 800,
-    letterSpacing: 1,
+    letterSpacing: 6,
     margin: 0,
+    fontFamily: "'Playfair Display', 'Georgia', serif",
+    textTransform: "uppercase",
   },
   tagline: {
     color: BRAND.gray,
