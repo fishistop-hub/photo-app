@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from "react";
 
 const BRAND = {
-  green: "#263526",
-  greenLight: "#304530",
-  greenDark: "#182018",
+  green: "#1a3a1a",
+  greenLight: "#224422",
+  greenDark: "#122612",
   yellow: "#F5C842",
   yellowDim: "#c9a232",
   white: "#f5f5f0",
@@ -14,11 +14,11 @@ const BRAND = {
 function FishiLogo({ size = 90 }) {
   return (
     <img
-      src="/logo.jpg"
+      src="/logo.png"
       alt="Fishi Stop Logo"
       width={size}
       height={size}
-      style={{ objectFit: "contain", borderRadius: 16 }}
+      style={{ objectFit: "contain" }}
     />
   );
 }
@@ -32,12 +32,6 @@ function WelcomeScreen({ eventName, onStart }) {
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by F I S H I</p>
-      {eventName && (
-        <div style={styles.eventBadge}>
-          <span style={styles.eventLabel}>Event</span>
-          <span style={styles.eventName}>{eventName}</span>
-        </div>
-      )}
       <p style={styles.instruction}>
         Take a quick selfie — we'll find all your photos from this event instantly.
       </p>
@@ -45,7 +39,7 @@ function WelcomeScreen({ eventName, onStart }) {
         Find My Photos
       </button>
       <p style={styles.footer}>
-        📞 +91 80565 03037 &nbsp;|&nbsp; fishistop@gmail.com
+        📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
       </p>
     </div>
   );
@@ -357,19 +351,21 @@ const styles = {
   logoWrap: { marginBottom: 12 },
   brand: {
     color: BRAND.yellow,
-    fontSize: 32,
-    fontWeight: 800,
-    letterSpacing: 6,
+    fontSize: 36,
+    fontWeight: 900,
+    letterSpacing: 8,
     margin: 0,
-    fontFamily: "'Playfair Display', 'Georgia', serif",
+    fontFamily: "'Oswald', 'Anton', 'Georgia', serif",
     textTransform: "uppercase",
   },
   tagline: {
     color: BRAND.gray,
     fontSize: 13,
-    letterSpacing: 3,
+    letterSpacing: 6,
     textTransform: "uppercase",
-    margin: "4px 0 24px",
+    margin: "6px 0 28px",
+    fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+    fontStyle: "italic",
   },
   eventBadge: {
     background: BRAND.greenLight,
