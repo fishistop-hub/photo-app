@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from "react";
 
 const BRAND = {
-  green: "#1a3a1a",
-  greenLight: "#224422",
-  greenDark: "#122612",
+  green: "#2a3d2a",
+  greenLight: "#344d34",
+  greenDark: "#1a3a1a",
   yellow: "#F5C842",
   yellowDim: "#c9a232",
   white: "#f5f5f0",
@@ -18,7 +18,7 @@ function FishiLogo({ size = 90 }) {
       alt="Fishi Stop Logo"
       width={size}
       height={size}
-      style={{ objectFit: "contain" }}
+      style={{ objectFit: "contain", display: "block" }}
     />
   );
 }
@@ -28,7 +28,7 @@ function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
       <div style={styles.logoWrap}>
-        <FishiLogo size={130} />
+        <FishiLogo size={180} />
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by F I S H I</p>
@@ -325,28 +325,35 @@ export default function App() {
 const styles = {
   app: {
     minHeight: "100vh",
-    background: BRAND.greenDark,
+    background: BRAND.green,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "24px 12px",
+    padding: "0",
     fontFamily: "'Inter', 'Segoe UI', sans-serif",
   },
   card: {
     background: BRAND.green,
-    borderRadius: 20,
+    borderRadius: 0,
     width: "100%",
-    maxWidth: 480,
-    minHeight: "80vh",
-    boxShadow: "0 8px 40px rgba(0,0,0,0.5)",
+    minHeight: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: "none",
     overflow: "hidden",
   },
   screen: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "32px 24px",
+    justifyContent: "center",
+    padding: "40px 24px",
     gap: 0,
+    width: "100%",
+    maxWidth: 480,
+    margin: "0 auto",
+    textAlign: "center",
   },
   logoWrap: { marginBottom: 12 },
   brand: {
