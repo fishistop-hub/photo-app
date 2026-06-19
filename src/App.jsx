@@ -90,28 +90,24 @@ function DoodleBg() {
 function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%" }}>
-        <div style={styles.logoWrap}>
-          <FishiLogo size={220} />
-        </div>
-        <h1 style={styles.brand}>FISHI SELFI</h1>
-        <p style={styles.tagline}>by FISHI STOP</p>
-        <div style={styles.divider} />
-        <p style={styles.instruction}>
-          Snap a quick selfie — we'll find every photo of you from today's event in seconds.
-        </p>
-        <button style={styles.btnPrimary} onClick={onStart}>
-          📸 &nbsp; Find My Photos
-        </button>
-        <p style={styles.subCta}>Free · Instant · No app needed</p>
+      <div style={styles.logoWrap}>
+        <FishiLogo size={200} />
       </div>
-      <div style={styles.bottomSection}>
-        <div style={styles.divider} />
-        <p style={styles.slogan}>✦ TASTE the TASTE of PHOTOGRAPHY ✦</p>
-        <p style={styles.footer}>
-          📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
-        </p>
-      </div>
+      <h1 style={styles.brand}>FISHI SELFI</h1>
+      <p style={styles.tagline}>by FISHI STOP</p>
+      <div style={styles.divider} />
+      <p style={styles.instruction}>
+        Snap a quick selfie — we'll find every photo of you from today's event in seconds.
+      </p>
+      <button style={styles.btnPrimary} onClick={onStart}>
+        📸 &nbsp; Find My Photos
+      </button>
+      <p style={styles.subCta}>Free · Instant · No app needed</p>
+      <div style={styles.divider} />
+      <p style={styles.slogan}>✦ TASTE the TASTE of PHOTOGRAPHY ✦</p>
+      <p style={styles.footer}>
+        📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
+      </p>
     </div>
   );
 }
@@ -419,8 +415,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
-    padding: "40px 24px 24px",
+    justifyContent: "center",
+    padding: "32px 24px",
     gap: 0,
     width: "100%",
     maxWidth: 480,
@@ -428,14 +424,7 @@ const styles = {
     minHeight: "100vh",
     textAlign: "center",
   },
-  bottomSection: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    paddingBottom: 8,
-  },
-  logoWrap: { marginBottom: 12 },
+  logoWrap: { marginBottom: 8 },
   brand: {
     color: BRAND.yellow,
     fontSize: 36,
@@ -450,7 +439,7 @@ const styles = {
     fontSize: 13,
     letterSpacing: 6,
     textTransform: "uppercase",
-    margin: "6px 0 28px",
+    margin: "4px 0 0",
     fontFamily: "'Cormorant Garamond', 'Georgia', serif",
     fontStyle: "italic",
   },
@@ -469,31 +458,32 @@ const styles = {
   subCta: {
     color: BRAND.gray,
     fontSize: 12,
-    marginTop: 8,
+    marginTop: 6,
+    marginBottom: 0,
     letterSpacing: 1,
   },
   divider: {
     width: 60,
     height: 1,
     background: `linear-gradient(to right, transparent, ${BRAND.yellow}, transparent)`,
-    margin: "16px auto",
+    margin: "12px auto",
     opacity: 0.4,
   },
   slogan: {
     color: BRAND.yellow,
-    fontSize: 13,
+    fontSize: 12,
     fontStyle: "italic",
     letterSpacing: 1,
-    margin: "0 0 20px",
+    margin: "0 0 6px",
     opacity: 0.8,
     textAlign: "center",
   },
   instruction: {
     color: BRAND.white,
     textAlign: "center",
-    fontSize: 15,
-    lineHeight: 1.6,
-    margin: "0 0 28px",
+    fontSize: 14,
+    lineHeight: 1.5,
+    margin: "0 0 16px",
     opacity: 0.85,
   },
   btnPrimary: {
@@ -507,7 +497,7 @@ const styles = {
     cursor: "pointer",
     width: "100%",
     maxWidth: 320,
-    marginTop: 8,
+    marginTop: 4,
   },
   btnSecondary: {
     background: "transparent",
@@ -523,7 +513,7 @@ const styles = {
   footer: {
     color: BRAND.gray,
     fontSize: 12,
-    marginTop: 32,
+    marginTop: 4,
     textAlign: "center",
   },
   backBtn: {
