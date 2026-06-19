@@ -26,30 +26,40 @@ function FishiLogo({ size = 90 }) {
 // ── Doodle Background ───────────────────────────────────────────────────────
 function DoodleBg() {
   const items = [
-    // Film reel (top left)
-    { x: 2, y: 3, r: -10, size: 80, vb: "0 0 60 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><circle cx="30" cy="30" r="28"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="12" r="4"/><circle cx="30" cy="48" r="4"/><circle cx="12" cy="30" r="4"/><circle cx="48" cy="30" r="4"/><circle cx="16" cy="16" r="4"/><circle cx="44" cy="44" r="4"/><circle cx="44" cy="16" r="4"/><circle cx="16" cy="44" r="4"/><path d="M30 58 Q40 62 50 58" strokeWidth="1.5"/></g> },
-    // Clapperboard (top center-left)
-    { x: 28, y: 1, r: 8, size: 80, vb: "0 0 60 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="14" width="56" height="39" rx="3"/><rect x="2" y="6" width="56" height="12" rx="2"/><line x1="2" y1="6" x2="20" y2="18"/><line x1="18" y1="6" x2="36" y2="18"/><line x1="34" y1="6" x2="52" y2="18"/><text x="8" y="32" fontSize="6" stroke="currentColor" strokeWidth="0.5" fill="currentColor">PROD.</text><text x="8" y="40" fontSize="6" stroke="currentColor" strokeWidth="0.5" fill="currentColor">DIRECTOR</text><text x="8" y="48" fontSize="6" stroke="currentColor" strokeWidth="0.5" fill="currentColor">DATE</text><line x1="30" y1="26" x2="58" y2="26"/><line x1="30" y1="34" x2="58" y2="34"/><line x1="30" y1="42" x2="58" y2="42"/></g> },
+    // Film reel top left
+    { x: 2, y: 2, r: -10, size: 80, vb: "0 0 60 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><circle cx="30" cy="30" r="28"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="12" r="4"/><circle cx="30" cy="48" r="4"/><circle cx="12" cy="30" r="4"/><circle cx="48" cy="30" r="4"/><circle cx="16" cy="16" r="4"/><circle cx="44" cy="44" r="4"/><circle cx="44" cy="16" r="4"/><circle cx="16" cy="44" r="4"/></g> },
+    // Clapperboard top center
+    { x: 30, y: 1, r: 8, size: 80, vb: "0 0 60 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="14" width="56" height="39" rx="3"/><rect x="2" y="6" width="56" height="12" rx="2"/><line x1="2" y1="6" x2="20" y2="18"/><line x1="18" y1="6" x2="36" y2="18"/><line x1="34" y1="6" x2="52" y2="18"/></g> },
     // Spotlight top right
-    { x: 72, y: 2, r: 15, size: 85, vb: "0 0 65 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="10,4 55,18 55,42 10,56"/><rect x="2" y="4" width="12" height="52" rx="3"/><line x1="55" y1="30" x2="65" y2="20"/><line x1="55" y1="30" x2="65" y2="30"/><line x1="55" y1="30" x2="65" y2="40"/><line x1="55" y1="30" x2="62" y2="14"/><line x1="55" y1="30" x2="62" y2="46"/></g> },
-    // Video camera on tripod (center)
-    { x: 55, y: 10, r: -5, size: 90, vb: "0 0 60 70", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="4" y="8" width="36" height="24" rx="4"/><circle cx="20" cy="20" r="8"/><circle cx="20" cy="20" r="4"/><polygon points="40,12 56,18 40,24"/><rect x="10" y="4" width="8" height="6" rx="1"/><line x1="22" y1="32" x2="22" y2="44"/><line x1="22" y1="44" x2="8" y2="68"/><line x1="22" y1="44" x2="22" y2="68"/><line x1="22" y1="44" x2="36" y2="68"/><line x1="10" y1="60" x2="34" y2="60"/></g> },
-    // Studio spotlight left
-    { x: 1, y: 35, r: 10, size: 80, vb: "0 0 60 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="4,4 52,18 52,42 4,52"/><rect x="48" y="4" width="10" height="48" rx="3"/><line x1="4" y1="28" x2="-6" y2="18"/><line x1="4" y1="28" x2="-6" y2="28"/><line x1="4" y1="28" x2="-6" y2="38"/></g> },
-    // Microphone
-    { x: 30, y: 32, r: 0, size: 75, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="10" y="2" width="20" height="30" rx="10"/><path d="M4 26 Q4 46 20 46 Q36 46 36 26"/><line x1="20" y1="46" x2="20" y2="60"/><line x1="10" y1="60" x2="30" y2="60"/><line x1="14" y1="10" x2="26" y2="10"/><line x1="14" y1="16" x2="26" y2="16"/><line x1="14" y1="22" x2="26" y2="22"/></g> },
-    // Star (right side)
-    { x: 82, y: 38, r: 15, size: 70, vb: "0 0 50 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="25,2 31,18 48,18 35,29 40,46 25,36 10,46 15,29 2,18 19,18"/></g> },
-    // Film projector (bottom left)
-    { x: 3, y: 68, r: -8, size: 85, vb: "0 0 65 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="8" width="38" height="30" rx="4"/><circle cx="14" cy="23" r="10"/><circle cx="14" cy="23" r="5"/><circle cx="30" cy="23" r="6"/><circle cx="30" cy="23" r="3"/><polygon points="40,18 56,12 56,34 40,28"/><line x1="20" y1="38" x2="14" y2="52"/><line x1="22" y1="38" x2="22" y2="52"/><line x1="24" y1="38" x2="30" y2="52"/></g> },
-    // Curtains (bottom center)
-    { x: 35, y: 65, r: 0, size: 85, vb: "0 0 70 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><line x1="2" y1="2" x2="68" y2="2"/><path d="M2,2 Q8,20 4,35 Q6,48 10,58"/><path d="M20,2 Q14,20 18,35 Q16,48 12,58"/><path d="M50,2 Q56,20 52,35 Q54,48 58,58"/><path d="M68,2 Q62,20 66,35 Q64,48 60,58"/><path d="M10,58 Q16,54 20,58"/><path d="M50,58 Q56,54 60,58"/><ellipse cx="16" cy="8" rx="6" ry="4"/><ellipse cx="54" cy="8" rx="6" ry="4"/></g> },
-    // Trophy/Oscar (bottom right)
-    { x: 75, y: 65, r: 5, size: 80, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><ellipse cx="20" cy="12" rx="8" ry="10"/><line x1="14" y1="20" x2="10" y2="38"/><line x1="26" y1="20" x2="30" y2="38"/><ellipse cx="20" cy="40" rx="12" ry="4"/><rect x="12" y="44" width="16" height="6" rx="2"/><rect x="8" y="50" width="24" height="4" rx="2"/><line x1="6" y1="14" x2="2" y2="8"/><line x1="34" y1="14" x2="38" y2="8"/></g> },
-    // Music note (right)
-    { x: 85, y: 72, r: -10, size: 70, vb: "0 0 40 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><path d="M16 38 L16 10 L36 6 L36 18"/><ellipse cx="12" cy="40" rx="8" ry="5" transform="rotate(-15 12 40)"/><ellipse cx="32" cy="20" rx="8" ry="5" transform="rotate(-15 32 20)"/></g> },
+    { x: 72, y: 2, r: 15, size: 85, vb: "0 0 65 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="10,4 55,18 55,42 10,56"/><rect x="2" y="4" width="12" height="52" rx="3"/><line x1="55" y1="30" x2="65" y2="20"/><line x1="55" y1="30" x2="65" y2="30"/><line x1="55" y1="30" x2="65" y2="40"/></g> },
+    // Video camera on tripod center-right
+    { x: 62, y: 12, r: -5, size: 90, vb: "0 0 60 70", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="4" y="8" width="36" height="24" rx="4"/><circle cx="20" cy="20" r="8"/><circle cx="20" cy="20" r="4"/><polygon points="40,12 56,18 40,24"/><line x1="22" y1="32" x2="22" y2="44"/><line x1="22" y1="44" x2="8" y2="68"/><line x1="22" y1="44" x2="22" y2="68"/><line x1="22" y1="44" x2="36" y2="68"/></g> },
+    // Studio light left
+    { x: 0, y: 28, r: 10, size: 80, vb: "0 0 60 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="4,4 52,18 52,42 4,52"/><rect x="48" y="4" width="10" height="48" rx="3"/><line x1="4" y1="28" x2="-6" y2="18"/><line x1="4" y1="28" x2="-6" y2="28"/><line x1="4" y1="28" x2="-6" y2="38"/></g> },
+    // Microphone center-left
+    { x: 3, y: 45, r: 0, size: 75, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="10" y="2" width="20" height="30" rx="10"/><path d="M4 26 Q4 46 20 46 Q36 46 36 26"/><line x1="20" y1="46" x2="20" y2="60"/><line x1="10" y1="60" x2="30" y2="60"/><line x1="14" y1="10" x2="26" y2="10"/><line x1="14" y1="16" x2="26" y2="16"/><line x1="14" y1="22" x2="26" y2="22"/></g> },
+    // Star right
+    { x: 82, y: 32, r: 15, size: 70, vb: "0 0 50 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="25,2 31,18 48,18 35,29 40,46 25,36 10,46 15,29 2,18 19,18"/></g> },
+    // Film projector bottom left
+    { x: 2, y: 65, r: -8, size: 85, vb: "0 0 65 55", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="8" width="38" height="30" rx="4"/><circle cx="14" cy="23" r="10"/><circle cx="14" cy="23" r="5"/><circle cx="30" cy="23" r="6"/><circle cx="30" cy="23" r="3"/><polygon points="40,18 56,12 56,34 40,28"/><line x1="20" y1="38" x2="14" y2="52"/><line x1="22" y1="38" x2="22" y2="52"/><line x1="24" y1="38" x2="30" y2="52"/></g> },
+    // Curtains bottom center
+    { x: 30, y: 72, r: 0, size: 85, vb: "0 0 70 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><line x1="2" y1="2" x2="68" y2="2"/><path d="M2,2 Q8,20 4,35 Q6,48 10,58"/><path d="M20,2 Q14,20 18,35 Q16,48 12,58"/><path d="M50,2 Q56,20 52,35 Q54,48 58,58"/><path d="M68,2 Q62,20 66,35 Q64,48 60,58"/><ellipse cx="16" cy="8" rx="6" ry="4"/><ellipse cx="54" cy="8" rx="6" ry="4"/></g> },
+    // Trophy bottom right
+    { x: 76, y: 68, r: 5, size: 80, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><ellipse cx="20" cy="12" rx="8" ry="10"/><line x1="14" y1="20" x2="10" y2="38"/><line x1="26" y1="20" x2="30" y2="38"/><ellipse cx="20" cy="40" rx="12" ry="4"/><rect x="12" y="44" width="16" height="6" rx="2"/><rect x="8" y="50" width="24" height="4" rx="2"/></g> },
+    // Music note right
+    { x: 85, y: 55, r: -10, size: 70, vb: "0 0 40 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><path d="M16 38 L16 10 L36 6 L36 18"/><ellipse cx="12" cy="40" rx="8" ry="5" transform="rotate(-15 12 40)"/><ellipse cx="32" cy="20" rx="8" ry="5" transform="rotate(-15 32 20)"/></g> },
     // Small clapperboard bottom
-    { x: 50, y: 85, r: 12, size: 65, vb: "0 0 50 45", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="10" width="46" height="33" rx="3"/><rect x="2" y="4" width="46" height="10" rx="2"/><line x1="2" y1="4" x2="16" y2="14"/><line x1="14" y1="4" x2="28" y2="14"/><line x1="28" y1="4" x2="42" y2="14"/></g> },
+    { x: 52, y: 84, r: 12, size: 65, vb: "0 0 50 45", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="2" y="10" width="46" height="33" rx="3"/><rect x="2" y="4" width="46" height="10" rx="2"/><line x1="2" y1="4" x2="16" y2="14"/><line x1="14" y1="4" x2="28" y2="14"/><line x1="28" y1="4" x2="42" y2="14"/></g> },
+    // Extra film reel right middle
+    { x: 80, y: 18, r: 20, size: 65, vb: "0 0 60 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><circle cx="30" cy="30" r="28"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="12" r="4"/><circle cx="30" cy="48" r="4"/><circle cx="12" cy="30" r="4"/><circle cx="48" cy="30" r="4"/></g> },
+    // Spotlight left bottom
+    { x: 0, y: 78, r: -15, size: 75, vb: "0 0 65 60", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="10,4 55,18 55,42 10,56"/><rect x="2" y="4" width="12" height="52" rx="3"/><line x1="55" y1="30" x2="65" y2="20"/><line x1="55" y1="30" x2="65" y2="30"/><line x1="55" y1="30" x2="65" y2="40"/></g> },
+    // Star small top
+    { x: 55, y: 5, r: -20, size: 55, vb: "0 0 50 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><polygon points="25,2 31,18 48,18 35,29 40,46 25,36 10,46 15,29 2,18 19,18"/></g> },
+    // Music note left top
+    { x: 18, y: 18, r: 10, size: 60, vb: "0 0 40 50", el: <g stroke="currentColor" strokeWidth="2" fill="none"><path d="M16 38 L16 10 L36 6 L36 18"/><ellipse cx="12" cy="40" rx="8" ry="5" transform="rotate(-15 12 40)"/><ellipse cx="32" cy="20" rx="8" ry="5" transform="rotate(-15 32 20)"/></g> },
+    // Microphone right bottom
+    { x: 78, y: 82, r: 8, size: 65, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="10" y="2" width="20" height="30" rx="10"/><path d="M4 26 Q4 46 20 46 Q36 46 36 26"/><line x1="20" y1="46" x2="20" y2="60"/><line x1="10" y1="60" x2="30" y2="60"/></g> },
   ];
 
   return (
@@ -66,7 +76,7 @@ function DoodleBg() {
             top: `${item.y}%`,
             transform: `rotate(${item.r}deg)`,
             color: "#F5C842",
-            opacity: 0.09,
+            opacity: 0.1,
           }}
         >
           {item.el}
@@ -80,24 +90,28 @@ function DoodleBg() {
 function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
-      <div style={styles.logoWrap}>
-        <FishiLogo size={220} />
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%" }}>
+        <div style={styles.logoWrap}>
+          <FishiLogo size={220} />
+        </div>
+        <h1 style={styles.brand}>FISHI SELFI</h1>
+        <p style={styles.tagline}>by FISHI STOP</p>
+        <div style={styles.divider} />
+        <p style={styles.instruction}>
+          Snap a quick selfie — we'll find every photo of you from today's event in seconds.
+        </p>
+        <button style={styles.btnPrimary} onClick={onStart}>
+          📸 &nbsp; Find My Photos
+        </button>
+        <p style={styles.subCta}>Free · Instant · No app needed</p>
       </div>
-      <h1 style={styles.brand}>FISHI SELFI</h1>
-      <p style={styles.tagline}>by FISHI STOP</p>
-      <p style={styles.slogan}>✦ TASTE the TASTE of PHOTOGRAPHY ✦</p>
-      <div style={styles.divider} />
-      <p style={styles.instruction}>
-        Snap a quick selfie — we'll find every photo of you from today's event in seconds.
-      </p>
-      <button style={styles.btnPrimary} onClick={onStart}>
-        📸 &nbsp; Find My Photos
-      </button>
-      <p style={styles.subCta}>Free · Instant · No app needed</p>
-      <div style={styles.divider} />
-      <p style={styles.footer}>
-        📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
-      </p>
+      <div style={styles.bottomSection}>
+        <div style={styles.divider} />
+        <p style={styles.slogan}>✦ TASTE the TASTE of PHOTOGRAPHY ✦</p>
+        <p style={styles.footer}>
+          📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
+        </p>
+      </div>
     </div>
   );
 }
@@ -405,13 +419,21 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    padding: "40px 24px",
+    justifyContent: "space-between",
+    padding: "40px 24px 24px",
     gap: 0,
     width: "100%",
     maxWidth: 480,
     margin: "0 auto",
+    minHeight: "100vh",
     textAlign: "center",
+  },
+  bottomSection: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingBottom: 8,
   },
   logoWrap: { marginBottom: 12 },
   brand: {
