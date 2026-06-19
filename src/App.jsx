@@ -1,9 +1,9 @@
 import { useState, useRef, useCallback } from "react";
 
 const BRAND = {
-  green: "#2a3d2a",
-  greenLight: "#344d34",
-  greenDark: "#1a3a1a",
+  green: "#1a3a1a",
+  greenLight: "#224422",
+  greenDark: "#122612",
   yellow: "#F5C842",
   yellowDim: "#c9a232",
   white: "#f5f5f0",
@@ -18,7 +18,7 @@ function FishiLogo({ size = 90 }) {
       alt="Fishi Stop Logo"
       width={size}
       height={size}
-      style={{ objectFit: "contain", display: "block" }}
+      style={{ objectFit: "contain", display: "block", mixBlendMode: "lighten" }}
     />
   );
 }
