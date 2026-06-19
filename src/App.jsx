@@ -91,7 +91,7 @@ function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
       <div style={styles.logoWrap}>
-        <FishiLogo size={200} />
+        <FishiLogo size={140} />
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by FISHI STOP</p>
@@ -394,7 +394,7 @@ export default function App() {
 // ── Styles ─────────────────────────────────────────────────────────────────
 const styles = {
   app: {
-    height: "100vh",
+    height: "100dvh",
     width: "100vw",
     background: BRAND.green,
     display: "flex",
@@ -402,6 +402,9 @@ const styles = {
     justifyContent: "center",
     fontFamily: "'Inter', 'Segoe UI', sans-serif",
     overflow: "hidden",
+    position: "fixed",
+    top: 0,
+    left: 0,
   },
   card: {
     background: BRAND.green,
@@ -418,26 +421,27 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "24px 24px",
+    padding: "12px 24px",
     gap: 0,
     width: "100%",
     height: "100%",
     textAlign: "center",
+    overflow: "hidden",
   },
-  logoWrap: { marginBottom: 14 },
+  logoWrap: { marginBottom: 6 },
   brand: {
     color: BRAND.yellow,
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: 900,
     letterSpacing: 8,
-    margin: "0 0 4px",
+    margin: "0 0 2px",
     fontFamily: "'Oswald', 'Anton', 'Georgia', serif",
     textTransform: "uppercase",
   },
   tagline: {
     color: BRAND.gray,
-    fontSize: 13,
-    letterSpacing: 6,
+    fontSize: 11,
+    letterSpacing: 5,
     textTransform: "uppercase",
     margin: "0 0 0",
     fontFamily: "'Cormorant Garamond', 'Georgia', serif",
@@ -457,33 +461,33 @@ const styles = {
   eventName: { color: BRAND.yellow, fontSize: 16, fontWeight: 700 },
   subCta: {
     color: BRAND.gray,
-    fontSize: 12,
-    marginTop: 8,
+    fontSize: 11,
+    marginTop: 6,
     marginBottom: 0,
     letterSpacing: 1,
   },
   divider: {
-    width: 60,
+    width: 50,
     height: 1,
     background: `linear-gradient(to right, transparent, ${BRAND.yellow}, transparent)`,
-    margin: "18px auto",
+    margin: "10px auto",
     opacity: 0.4,
   },
   slogan: {
     color: BRAND.yellow,
-    fontSize: 12,
+    fontSize: 11,
     fontStyle: "italic",
     letterSpacing: 1,
-    margin: "10px 0 0",
+    margin: "8px 0 0",
     opacity: 0.85,
     textAlign: "center",
   },
   instruction: {
     color: BRAND.white,
     textAlign: "center",
-    fontSize: 14,
-    lineHeight: 1.6,
-    margin: "0 0 18px",
+    fontSize: 13,
+    lineHeight: 1.5,
+    margin: "0 0 12px",
     opacity: 0.85,
   },
   btnPrimary: {
@@ -491,12 +495,12 @@ const styles = {
     color: BRAND.greenDark,
     border: "none",
     borderRadius: 12,
-    padding: "14px 32px",
-    fontSize: 16,
+    padding: "12px 32px",
+    fontSize: 15,
     fontWeight: 700,
     cursor: "pointer",
     width: "100%",
-    maxWidth: 320,
+    maxWidth: 300,
     marginTop: 4,
   },
   btnSecondary: {
