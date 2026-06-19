@@ -91,7 +91,7 @@ function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
       <div style={styles.logoWrap}>
-        <FishiLogo size={180} />
+        <FishiLogo size={220} />
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by FISHI STOP</p>
@@ -105,7 +105,7 @@ function WelcomeScreen({ eventName, onStart }) {
         📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
       </p>
       <p style={styles.slogan}>
-        ✦ <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> the <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> of <strong style={{fontWeight:900, letterSpacing:2}}>PHOTOGRAPHY</strong> ✦
+        <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> the <strong style={{fontWeight:900, letterSpacing:2}}>TASTE</strong> of <strong style={{fontWeight:900, letterSpacing:2}}>PHOTOGRAPHY</strong>
       </p>
     </div>
   );
@@ -475,7 +475,7 @@ const styles = {
     fontSize: 11,
     fontStyle: "italic",
     letterSpacing: 1,
-    margin: "8px 0 0",
+    margin: "12px 0 0",
     opacity: 0.85,
     textAlign: "center",
   },
@@ -514,7 +514,8 @@ const styles = {
   footer: {
     color: BRAND.gray,
     fontSize: 12,
-    marginTop: 0,
+    marginTop: 16,
+    marginBottom: 0,
     textAlign: "center",
   },
   backBtn: {
