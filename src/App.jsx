@@ -472,7 +472,7 @@ const styles = {
   },
   slogan: {
     color: BRAND.yellow,
-    fontSize: 11,
+    fontSize: 14,
     fontStyle: "italic",
     letterSpacing: 1,
     margin: "12px 0 0",
