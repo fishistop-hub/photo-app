@@ -23,6 +23,57 @@ function FishiLogo({ size = 90 }) {
   );
 }
 
+// ── Doodle Background ───────────────────────────────────────────────────────
+function DoodleBg() {
+  const items = [
+    // Camera body
+    { x: 5, y: 8, r: 0, el: <g><rect width="36" height="26" rx="4" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="18" cy="13" r="7" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="18" cy="13" r="3" fill="none" stroke="currentColor" strokeWidth="1"/><rect x="12" y="-4" width="12" height="5" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="30" cy="5" r="2" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
+    // Lens
+    { x: 70, y: 15, r: 15, el: <g><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="14" cy="14" r="9" fill="none" stroke="currentColor" strokeWidth="1"/><circle cx="14" cy="14" r="5" fill="none" stroke="currentColor" strokeWidth="1"/><line x1="1" y1="14" x2="4" y2="14" stroke="currentColor" strokeWidth="1"/><line x1="24" y1="14" x2="27" y2="14" stroke="currentColor" strokeWidth="1"/><line x1="14" y1="1" x2="14" y2="4" stroke="currentColor" strokeWidth="1"/><line x1="14" y1="24" x2="14" y2="27" stroke="currentColor" strokeWidth="1"/></g> },
+    // Tripod
+    { x: 40, y: 60, r: -10, el: <g><rect x="8" y="0" width="14" height="20" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5"/><line x1="15" y1="20" x2="5" y2="40" stroke="currentColor" strokeWidth="1.5"/><line x1="15" y1="20" x2="15" y2="40" stroke="currentColor" strokeWidth="1.5"/><line x1="15" y1="20" x2="25" y2="40" stroke="currentColor" strokeWidth="1.5"/><line x1="5" y1="35" x2="25" y2="35" stroke="currentColor" strokeWidth="1"/></g> },
+    // Flash
+    { x: 80, y: 55, r: 5, el: <g><polygon points="12,0 4,14 10,14 2,28 18,10 11,10" fill="none" stroke="currentColor" strokeWidth="1.5"/></g> },
+    // Film roll
+    { x: 15, y: 45, r: -5, el: <g><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="14" cy="14" r="5" fill="none" stroke="currentColor" strokeWidth="1.5"/><rect x="0" y="10" width="4" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="1"/><rect x="24" y="10" width="4" height="8" rx="1" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
+    // Video camera
+    { x: 60, y: 75, r: 8, el: <g><rect width="28" height="18" rx="3" fill="none" stroke="currentColor" strokeWidth="1.5"/><polygon points="28,4 40,9 28,14" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="10" cy="9" r="4" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
+    // Star/sparkle
+    { x: 88, y: 30, r: 0, el: <g><line x1="8" y1="0" x2="8" y2="16" stroke="currentColor" strokeWidth="1.5"/><line x1="0" y1="8" x2="16" y2="8" stroke="currentColor" strokeWidth="1.5"/><line x1="2" y1="2" x2="14" y2="14" stroke="currentColor" strokeWidth="1"/><line x1="14" y1="2" x2="2" y2="14" stroke="currentColor" strokeWidth="1"/></g> },
+    // Light bulb / studio light
+    { x: 25, y: 78, r: -8, el: <g><circle cx="10" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.5"/><line x1="10" y1="15" x2="10" y2="22" stroke="currentColor" strokeWidth="1.5"/><line x1="6" y1="18" x2="14" y2="18" stroke="currentColor" strokeWidth="1"/><line x1="0" y1="8" x2="-4" y2="4" stroke="currentColor" strokeWidth="1"/><line x1="20" y1="8" x2="24" y2="4" stroke="currentColor" strokeWidth="1"/><line x1="10" y1="0" x2="10" y2="-4" stroke="currentColor" strokeWidth="1"/></g> },
+    // Shutter icon
+    { x: 50, y: 20, r: 20, el: <g><circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" strokeWidth="1.5"/><line x1="10" y1="1" x2="10" y2="5" stroke="currentColor" strokeWidth="2"/><line x1="10" y1="15" x2="10" y2="19" stroke="currentColor" strokeWidth="2"/><line x1="1" y1="10" x2="5" y2="10" stroke="currentColor" strokeWidth="2"/><line x1="15" y1="10" x2="19" y2="10" stroke="currentColor" strokeWidth="2"/></g> },
+    // Small camera top right
+    { x: 78, y: 88, r: -15, el: <g><rect width="24" height="17" rx="3" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="12" cy="9" r="5" fill="none" stroke="currentColor" strokeWidth="1.5"/><rect x="7" y="-3" width="8" height="4" rx="1" fill="none" stroke="currentColor" strokeWidth="1"/></g> },
+  ];
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
+      overflow: "hidden",
+    }}>
+      {items.map((item, i) => (
+        <svg
+          key={i}
+          width="60" height="60"
+          viewBox="0 0 40 40"
+          style={{
+            position: "absolute",
+            left: `${item.x}%`,
+            top: `${item.y}%`,
+            transform: `rotate(${item.r}deg)`,
+            color: "#F5C842",
+            opacity: 0.07,
+          }}
+        >
+          {item.el}
+        </svg>
+      ))}
+    </div>
+  );
+}
+
 // ── Screens ────────────────────────────────────────────────────────────────
 function WelcomeScreen({ eventName, onStart }) {
   return (
@@ -32,6 +83,7 @@ function WelcomeScreen({ eventName, onStart }) {
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by FISHI STOP</p>
+      <p style={styles.slogan}>" TASTE the TASTE of PHOTOGRAPHY "</p>
       <p style={styles.instruction}>
         Take a quick selfie — we'll find all your photos from this event instantly.
       </p>
@@ -301,6 +353,7 @@ export default function App() {
 
   return (
     <div style={styles.app}>
+      <DoodleBg />
       <div style={styles.card}>
         {screen === "welcome" && (
           <WelcomeScreen eventName={eventName} onStart={() => setScreen("selfie")} />
@@ -386,6 +439,15 @@ const styles = {
   },
   eventLabel: { color: BRAND.gray, fontSize: 11, letterSpacing: 2, textTransform: "uppercase" },
   eventName: { color: BRAND.yellow, fontSize: 16, fontWeight: 700 },
+  slogan: {
+    color: BRAND.yellow,
+    fontSize: 13,
+    fontStyle: "italic",
+    letterSpacing: 1,
+    margin: "0 0 20px",
+    opacity: 0.8,
+    textAlign: "center",
+  },
   instruction: {
     color: BRAND.white,
     textAlign: "center",
