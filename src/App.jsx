@@ -14,7 +14,7 @@ const BRAND = {
 function FishiLogo({ size = 90 }) {
   return (
     <img
-      src="/logo.png"
+      src="./logo.jpg"
       alt="Fishi Stop Logo"
       width={size}
       height={size}
@@ -28,7 +28,7 @@ function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
       <div style={styles.logoWrap}>
-        <FishiLogo size={90} />
+        <FishiLogo size={130} />
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by F I S H I</p>
@@ -327,7 +327,7 @@ const styles = {
     minHeight: "100vh",
     background: BRAND.greenDark,
     display: "flex",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     padding: "24px 12px",
     fontFamily: "'Inter', 'Segoe UI', sans-serif",
