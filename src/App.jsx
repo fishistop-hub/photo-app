@@ -91,19 +91,16 @@ function WelcomeScreen({ eventName, onStart }) {
   return (
     <div style={styles.screen}>
       <div style={styles.logoWrap}>
-        <FishiLogo size={140} />
+        <FishiLogo size={180} />
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by FISHI STOP</p>
-      <div style={styles.divider} />
       <p style={styles.instruction}>
         Snap a quick selfie — we'll find every photo of you from today's event in seconds.
       </p>
       <button style={styles.btnPrimary} onClick={onStart}>
         📸 &nbsp; Find My Photos
       </button>
-      <p style={styles.subCta}>Free · Instant · No app needed</p>
-      <div style={styles.divider} />
       <p style={styles.footer}>
         📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com
       </p>
