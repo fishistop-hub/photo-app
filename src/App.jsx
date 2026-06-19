@@ -96,7 +96,7 @@ function WelcomeScreen({ eventName, onStart }) {
       <h1 style={styles.brand}>FISHI SELFI</h1>
       <p style={styles.tagline}>by FISHI STOP</p>
       <p style={styles.instruction}>
-        Snap a quick selfie — we'll find every photo of you from today's event in seconds.
+        Snap your quick selfie — we'll find every photo of you.
       </p>
       <button style={styles.btnPrimary} onClick={onStart}>
         📸 &nbsp; Find My Photos
@@ -440,7 +440,7 @@ const styles = {
     fontSize: 11,
     letterSpacing: 5,
     textTransform: "uppercase",
-    margin: "0 0 0",
+    margin: "0 0 16px",
     fontFamily: "'Cormorant Garamond', 'Georgia', serif",
     fontStyle: "italic",
   },
