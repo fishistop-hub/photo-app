@@ -31,7 +31,7 @@ function WelcomeScreen({ eventName, onStart }) {
         <FishiLogo size={220} />
       </div>
       <h1 style={styles.brand}>FISHI SELFI</h1>
-      <p style={styles.tagline}>by &nbsp; F &nbsp; I &nbsp; S &nbsp; H &nbsp; I</p>
+      <p style={styles.tagline}>by FISHI</p>
       <p style={styles.instruction}>
         Take a quick selfie — we'll find all your photos from this event instantly.
       </p>
