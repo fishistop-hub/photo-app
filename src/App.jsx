@@ -344,12 +344,12 @@ export default function App() {
       }, 400);
 
       // Real API call to your Render backend
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/match`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}}/find-photos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           selfie: dataUrl,
-          eventId: new URLSearchParams(window.location.search).get("id"),
+          event_folder_id: new URLSearchParams(window.location.search).get("id") || "1PQbv3xUfeC6LNZ1q3Qacf30qOIw5HS2E",
         }),
       });
 
