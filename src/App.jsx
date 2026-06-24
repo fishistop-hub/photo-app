@@ -344,7 +344,7 @@ export default function App() {
       }, 400);
 
       // Real API call to your Render backend
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}}/find-photos`, {
+      const res = await fetch(`https://fishistop-selfi-backend.onrender.com/find-photos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
