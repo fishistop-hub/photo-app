@@ -12,13 +12,8 @@ const BRAND = {
 
 function FishiLogo({ size = 90 }) {
   return (
-    <img
-      src="./logo.jpg"
-      alt="Fishi Stop Logo"
-      width={size}
-      height={size}
-      style={{ objectFit: "contain", display: "block", mixBlendMode: "lighten" }}
-    />
+    <img src="./logo.jpg" alt="Fishi Stop Logo" width={size} height={size}
+      style={{ objectFit: "contain", display: "block", mixBlendMode: "lighten" }} />
   );
 }
 
@@ -31,11 +26,11 @@ function DoodleBg() {
     { x: 3, y: 45, r: 0, size: 75, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><rect x="10" y="2" width="20" height="30" rx="10"/><path d="M4 26 Q4 46 20 46 Q36 46 36 26"/><line x1="20" y1="46" x2="20" y2="60"/><line x1="10" y1="60" x2="30" y2="60"/></g> },
     { x: 76, y: 68, r: 5, size: 80, vb: "0 0 40 65", el: <g stroke="currentColor" strokeWidth="2" fill="none"><ellipse cx="20" cy="12" rx="8" ry="10"/><line x1="14" y1="20" x2="10" y2="38"/><line x1="26" y1="20" x2="30" y2="38"/><ellipse cx="20" cy="40" rx="12" ry="4"/><rect x="12" y="44" width="16" height="6" rx="2"/></g> },
   ];
-
   return (
     <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
       {items.map((item, i) => (
-        <svg key={i} width={item.size} height={item.size} viewBox={item.vb} style={{ position: "absolute", left: `${item.x}%`, top: `${item.y}%`, transform: `rotate(${item.r}deg)`, color: "#F5C842", opacity: 0.1 }}>
+        <svg key={i} width={item.size} height={item.size} viewBox={item.vb}
+          style={{ position: "absolute", left: `${item.x}%`, top: `${item.y}%`, transform: `rotate(${item.r}deg)`, color: "#F5C842", opacity: 0.1 }}>
           {item.el}
         </svg>
       ))}
@@ -126,8 +121,8 @@ function SelfieScreen({ onCapture, onBack }) {
 function LoadingScreen({ progress }) {
   return (
     <div style={styles.screen}>
-      <FishiLogo size={60} />
-      <h2 style={{ ...styles.heading, marginTop: 24 }}>Searching your photos…</h2>
+      <FishiLogo size={140} />
+      <h2 style={{ ...styles.heading, marginTop: 24 }}>Fishi Stop Searching your photos...</h2>
       <p style={styles.subtext}>Scanning {progress.total} photos for your face</p>
       <div style={styles.progressBar}>
         <div style={{ ...styles.progressFill, width: `${Math.round((progress.done / progress.total) * 100)}%` }} />
@@ -137,24 +132,75 @@ function LoadingScreen({ progress }) {
   );
 }
 
-function ResultsScreen({ matches, eventName, onRetry }) {
-  const [lightbox, setLightbox] = useState(null);
+function Lightbox({ matches, startIndex, onClose, eventName }) {
+  const [current, setCurrent] = useState(startIndex);
+  const touchStartX = useRef(null);
 
-  const getImageUrl = (match) => {
-    return `https://drive.google.com/thumbnail?id=${match.file_id}&sz=w800`;
+  const getImageUrl = (match) => `https://drive.google.com/thumbnail?id=${match.file_id}&sz=w1200`;
+
+  const prev = () => setCurrent((c) => (c > 0 ? c - 1 : matches.length - 1));
+  const next = () => setCurrent((c) => (c < matches.length - 1 ? c + 1 : 0));
+
+  const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+    touchStartX.current = null;
   };
 
-  const downloadPhoto = async (match, index) => {
-    try {
-      const url = `https://drive.google.com/uc?export=download&id=${match.file_id}`;
-      const a = document.createElement("a");
-      a.href = url;
-      a.target = "_blank";
-      a.download = `FishiStop_${eventName || "photo"}_${index + 1}.jpg`;
-      a.click();
-    } catch (e) {
-      window.open(`https://drive.google.com/file/d/${match.file_id}/view`, "_blank");
-    }
+  const downloadPhoto = () => {
+    window.open(`https://drive.google.com/uc?export=download&id=${matches[current].file_id}`, "_blank");
+  };
+
+  return (
+    <div style={styles.lightboxOverlay} onClick={onClose}>
+      <div style={styles.lightboxBox} onClick={e => e.stopPropagation()}
+        onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        
+        {/* Close */}
+        <button style={styles.lbClose} onClick={onClose}>✕</button>
+
+        {/* Counter */}
+        <div style={styles.lbCounter}>{current + 1} / {matches.length}</div>
+
+        {/* Image */}
+        <img src={getImageUrl(matches[current])} alt={`Photo ${current + 1}`} style={styles.lbImage} />
+
+        {/* Arrows */}
+        {matches.length > 1 && (
+          <>
+            <button style={{ ...styles.lbArrow, left: 8 }} onClick={prev}>‹</button>
+            <button style={{ ...styles.lbArrow, right: 8 }} onClick={next}>›</button>
+          </>
+        )}
+
+        {/* Download */}
+        <button style={styles.lbDownload} onClick={downloadPhoto}>↓ Download This Photo</button>
+      </div>
+    </div>
+  );
+}
+
+function ResultsScreen({ matches, eventName, onRetry }) {
+  const [selected, setSelected] = useState([]);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  const getImageUrl = (match) => `https://drive.google.com/thumbnail?id=${match.file_id}&sz=w800`;
+
+  const toggleSelect = (i) => {
+    setSelected((prev) => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]);
+  };
+
+  const selectAll = () => {
+    if (selected.length === matches.length) setSelected([]);
+    else setSelected(matches.map((_, i) => i));
+  };
+
+  const downloadSelected = () => {
+    selected.forEach((i) => {
+      window.open(`https://drive.google.com/uc?export=download&id=${matches[i].file_id}`, "_blank");
+    });
   };
 
   if (!matches || matches.length === 0) {
@@ -170,52 +216,62 @@ function ResultsScreen({ matches, eventName, onRetry }) {
 
   return (
     <div style={styles.resultsContainer}>
-      {/* Lightbox */}
-      {lightbox !== null && (
-        <div style={styles.lightbox} onClick={() => setLightbox(null)}>
-          <div style={styles.lightboxContent} onClick={e => e.stopPropagation()}>
-            <img
-              src={getImageUrl(matches[lightbox])}
-              alt="Full photo"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-            <button style={styles.lightboxClose} onClick={() => setLightbox(null)}>✕</button>
-            <button style={styles.lightboxDownload} onClick={() => downloadPhoto(matches[lightbox], lightbox)}>
-              ↓ Download
-            </button>
-          </div>
-        </div>
+      {lightboxIndex !== null && (
+        <Lightbox matches={matches} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} eventName={eventName} />
       )}
 
+      {/* Header */}
       <div style={styles.resultsHeader}>
         <h2 style={styles.heading}>Your Photos</h2>
         <p style={styles.subtext}>{matches.length} photo{matches.length > 1 ? "s" : ""} found · Tap to view</p>
-      </div>
 
-      <div style={styles.scrollGrid}>
-        {matches.map((match, i) => (
-          <div key={i} style={styles.photoCard} onClick={() => setLightbox(i)}>
-            <img
-              src={getImageUrl(match)}
-              alt={`Photo ${i + 1}`}
-              style={styles.photoThumb}
-              onError={(e) => { e.target.src = ""; e.target.style.display = "none"; }}
-            />
-            <button
-              style={styles.downloadBtn}
-              onClick={(e) => { e.stopPropagation(); downloadPhoto(match, i); }}
-            >
-              ↓ Save
+        {/* Select controls */}
+        <div style={styles.selectBar}>
+          <button style={styles.selectAllBtn} onClick={selectAll}>
+            {selected.length === matches.length ? "Deselect All" : "Select All"}
+          </button>
+          {selected.length > 0 && (
+            <button style={styles.downloadAllBtn} onClick={downloadSelected}>
+              ↓ Download {selected.length} Selected
             </button>
-          </div>
-        ))}
+          )}
+        </div>
       </div>
 
-      <div style={{ textAlign: "center", padding: "16px", flexShrink: 0 }}>
-        <button style={{ ...styles.btnSecondary, width: "auto", padding: "10px 24px" }} onClick={onRetry}>
+      {/* Grid */}
+      <div style={styles.scrollGrid}>
+        {matches.map((match, i) => {
+          const isSelected = selected.includes(i);
+          return (
+            <div key={i} style={{ ...styles.photoCard, border: isSelected ? `3px solid ${BRAND.yellow}` : "3px solid transparent" }}>
+              <img
+                src={getImageUrl(match)}
+                alt={`Photo ${i + 1}`}
+                style={styles.photoThumb}
+                onClick={() => setLightboxIndex(i)}
+                onError={(e) => { e.target.style.opacity = "0.3"; }}
+              />
+              {/* Select checkbox */}
+              <div style={{ ...styles.checkbox, background: isSelected ? BRAND.yellow : "rgba(0,0,0,0.5)", border: isSelected ? "none" : `2px solid ${BRAND.yellow}` }}
+                onClick={() => toggleSelect(i)}>
+                {isSelected && <span style={{ color: BRAND.greenDark, fontSize: 14, fontWeight: 700 }}>✓</span>}
+              </div>
+              {/* Download button */}
+              <button style={styles.downloadBtn}
+                onClick={() => window.open(`https://drive.google.com/uc?export=download&id=${match.file_id}`, "_blank")}>
+                ↓ Save
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Footer */}
+      <div style={{ textAlign: "center", padding: "12px 16px", flexShrink: 0 }}>
+        <button style={{ ...styles.btnSecondary, width: "auto", padding: "10px 32px" }} onClick={onRetry}>
           Search Again
         </button>
-        <p style={{ color: BRAND.gray, fontSize: 12, marginTop: 12 }}>Captured by Fishi Stop Photography</p>
+        <p style={{ color: BRAND.gray, fontSize: 12, marginTop: 10 }}>Captured by Fishi Stop Photography</p>
       </div>
     </div>
   );
@@ -224,7 +280,7 @@ function ResultsScreen({ matches, eventName, onRetry }) {
 export default function App() {
   const [screen, setScreen] = useState("welcome");
   const [matches, setMatches] = useState([]);
-  const [progress, setProgress] = useState({ done: 0, total: 100 });
+  const [progress, setProgress] = useState({ done: 0, total: 995 });
 
   const eventName = new URLSearchParams(window.location.search).get("event") || "Event";
   const folderId = new URLSearchParams(window.location.search).get("id") || "1PQbv3xUfeC6LNZ1q3Qacf30qOIw5HS2E";
@@ -277,8 +333,11 @@ const styles = {
   card: { background: BRAND.green, width: "100%", height: "100%", maxWidth: 480, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" },
   screen: { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "12px 24px", gap: 0, width: "100%", height: "100%", textAlign: "center", overflow: "hidden" },
   resultsContainer: { display: "flex", flexDirection: "column", width: "100%", height: "100%", overflow: "hidden" },
-  resultsHeader: { padding: "16px 24px 0", textAlign: "center", flexShrink: 0 },
+  resultsHeader: { padding: "16px 16px 0", textAlign: "center", flexShrink: 0 },
   scrollGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, padding: "8px 16px", overflowY: "auto", flex: 1, WebkitOverflowScrolling: "touch" },
+  selectBar: { display: "flex", gap: 8, justifyContent: "center", alignItems: "center", marginBottom: 8, flexWrap: "wrap" },
+  selectAllBtn: { background: "transparent", border: `1px solid ${BRAND.yellow}`, color: BRAND.yellow, borderRadius: 8, padding: "6px 16px", fontSize: 13, cursor: "pointer" },
+  downloadAllBtn: { background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 8, padding: "6px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer" },
   logoWrap: { marginBottom: 6 },
   brand: { color: BRAND.yellow, fontSize: 32, fontWeight: 900, letterSpacing: 8, margin: "0 0 2px", textTransform: "uppercase" },
   tagline: { color: BRAND.gray, fontSize: 11, letterSpacing: 5, textTransform: "uppercase", margin: "0 0 16px", fontStyle: "italic" },
@@ -288,7 +347,7 @@ const styles = {
   footer: { color: BRAND.gray, fontSize: 12, marginTop: 16, marginBottom: 0, textAlign: "center" },
   backBtn: { alignSelf: "flex-start", background: "transparent", border: "none", color: BRAND.yellow, fontSize: 14, cursor: "pointer", padding: 0, marginBottom: 16 },
   heading: { color: BRAND.yellow, fontSize: 22, fontWeight: 700, margin: "0 0 6px", textAlign: "center" },
-  subtext: { color: BRAND.gray, fontSize: 14, textAlign: "center", margin: "0 0 20px", lineHeight: 1.5 },
+  subtext: { color: BRAND.gray, fontSize: 14, textAlign: "center", margin: "0 0 8px", lineHeight: 1.5 },
   cameraFrame: { position: "relative", width: "100%", maxWidth: 340, aspectRatio: "1/1", borderRadius: 16, overflow: "hidden", background: BRAND.greenDark, border: `2px solid ${BRAND.greenLight}`, marginBottom: 20 },
   cameraView: { width: "100%", height: "100%", objectFit: "cover", display: "block" },
   cameraPlaceholder: { width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 },
@@ -301,9 +360,13 @@ const styles = {
   progressFill: { height: "100%", background: BRAND.yellow, borderRadius: 99, transition: "width 0.3s ease" },
   photoCard: { position: "relative", borderRadius: 10, overflow: "hidden", background: BRAND.greenDark, cursor: "pointer", aspectRatio: "3/4" },
   photoThumb: { width: "100%", height: "100%", objectFit: "cover", display: "block" },
+  checkbox: { position: "absolute", top: 8, left: 8, width: 26, height: 26, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" },
   downloadBtn: { position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(18,38,18,0.9)", color: BRAND.yellow, border: "none", padding: "8px 0", fontSize: 13, fontWeight: 600, cursor: "pointer" },
-  lightbox: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" },
-  lightboxContent: { position: "relative", width: "90vw", height: "80vh", maxWidth: 500 },
-  lightboxClose: { position: "absolute", top: -40, right: 0, background: "transparent", border: "none", color: BRAND.yellow, fontSize: 24, cursor: "pointer" },
-  lightboxDownload: { position: "absolute", bottom: -48, left: "50%", transform: "translateX(-50%)", background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 10, padding: "10px 32px", fontWeight: 700, fontSize: 15, cursor: "pointer" },
+  lightboxOverlay: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" },
+  lightboxBox: { position: "relative", width: "95vw", height: "85vh", maxWidth: 500, display: "flex", alignItems: "center", justifyContent: "center" },
+  lbImage: { width: "100%", height: "100%", objectFit: "contain" },
+  lbClose: { position: "absolute", top: -44, right: 0, background: "transparent", border: "none", color: BRAND.yellow, fontSize: 28, cursor: "pointer", zIndex: 10 },
+  lbCounter: { position: "absolute", top: -44, left: 0, color: BRAND.yellow, fontSize: 14 },
+  lbArrow: { position: "absolute", top: "50%", transform: "translateY(-50%)", background: "rgba(245,200,66,0.2)", border: `1px solid ${BRAND.yellow}`, color: BRAND.yellow, borderRadius: "50%", width: 40, height: 40, fontSize: 24, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+  lbDownload: { position: "absolute", bottom: -52, left: "50%", transform: "translateX(-50%)", background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 10, padding: "12px 36px", fontWeight: 700, fontSize: 15, cursor: "pointer", whiteSpace: "nowrap" },
 };
