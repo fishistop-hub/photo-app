@@ -41,10 +41,15 @@ function DoodleBg() {
 function WelcomeScreen({ onStart }) {
   return (
     <div style={styles.screen}>
-      <div style={styles.logoWrap}><FishiLogo size={220} /></div>
-      <h1 style={styles.brand}>FISHI SELFI</h1>
-      <p style={styles.tagline}>by FISHI STOP</p>
-      <p style={styles.instruction}>Snap your quick selfie — we'll find every photo of you.</p>
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet" />
+      <div style={styles.logoWrap}><FishiLogo size={200} /></div>
+      <div style={styles.brandWrap}>
+        <h1 style={styles.brand}>FISHI</h1>
+        <h1 style={styles.brandSub}>SELFI</h1>
+      </div>
+      <p style={styles.tagline}>by FISHI STOP PHOTOGRAPHY</p>
+      <div style={styles.divider} />
+      <p style={styles.instruction}>Snap your quick selfie — we'll find every photo of you from the event.</p>
       <button style={styles.btnPrimary} onClick={onStart}>📸 &nbsp; Find My Photos</button>
       <p style={styles.footer}>📞 +91 80565 03037 &nbsp;|&nbsp; connect@fishistop.com</p>
     </div>
@@ -57,10 +62,14 @@ function SelfieScreen({ onCapture, onBack }) {
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState(null);
   const [captured, setCaptured] = useState(null);
+  const [flash, setFlash] = useState(false);
+  const [flashOn, setFlashOn] = useState(false);
 
   const startCamera = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 640 } } });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 640 } }
+      });
       videoRef.current.srcObject = stream;
       videoRef.current.play();
       setStreaming(true);
@@ -76,37 +85,95 @@ function SelfieScreen({ onCapture, onBack }) {
   }, []);
 
   const snap = useCallback(() => {
-    const canvas = canvasRef.current;
-    const video = videoRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext("2d").drawImage(video, 0, 0);
-    setCaptured(canvas.toDataURL("image/jpeg", 0.85));
-    stopCamera();
-  }, [stopCamera]);
+    // Flash effect
+    if (flashOn) {
+      setFlash(true);
+      setTimeout(() => {
+        setFlash(false);
+        const canvas = canvasRef.current;
+        const video = videoRef.current;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        // Mirror flip fix — draw un-mirrored
+        const ctx = canvas.getContext("2d");
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, 0, 0);
+        setCaptured(canvas.toDataURL("image/jpeg", 0.85));
+        stopCamera();
+      }, 300);
+    } else {
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, 0, 0);
+      setCaptured(canvas.toDataURL("image/jpeg", 0.85));
+      stopCamera();
+    }
+  }, [stopCamera, flashOn]);
 
   return (
     <div style={styles.screen}>
+      {/* Flash overlay */}
+      {flash && <div style={styles.flashOverlay} />}
+
       <button style={styles.backBtn} onClick={() => { stopCamera(); onBack(); }}>← Back</button>
       <h2 style={styles.heading}>Take Your Selfie</h2>
       <p style={styles.subtext}>Face the camera clearly · Good lighting helps</p>
+
       <div style={styles.cameraFrame}>
         {!captured ? (
           <>
-            <video ref={videoRef} style={{ ...styles.cameraView, display: streaming ? "block" : "none" }} playsInline muted />
-            {!streaming && !error && <div style={styles.cameraPlaceholder}><div style={styles.cameraIcon}>📷</div><p style={{ color: BRAND.gray, margin: 0 }}>Camera not started</p></div>}
-            {error && <div style={styles.cameraPlaceholder}><p style={{ color: "#e05252", textAlign: "center", padding: 16 }}>{error}</p></div>}
+            <video
+              ref={videoRef}
+              style={{ ...styles.cameraView, display: streaming ? "block" : "none", transform: "scaleX(-1)" }}
+              playsInline muted
+            />
+            {!streaming && !error && (
+              <div style={styles.cameraPlaceholder}>
+                <div style={styles.cameraIcon}>📷</div>
+                <p style={{ color: BRAND.gray, margin: 0 }}>Camera not started</p>
+              </div>
+            )}
+            {error && (
+              <div style={styles.cameraPlaceholder}>
+                <p style={{ color: "#e05252", textAlign: "center", padding: 16 }}>{error}</p>
+              </div>
+            )}
           </>
         ) : (
           <img src={captured} alt="Your selfie" style={styles.cameraView} />
         )}
         <div style={styles.cameraOverlay} />
       </div>
+
       <canvas ref={canvasRef} style={{ display: "none" }} />
+
       {!captured ? (
         <>
-          {!streaming && !error && <button style={styles.btnPrimary} onClick={startCamera}>Open Camera</button>}
-          {streaming && <button style={styles.btnSnap} onClick={snap}><span style={styles.snapDot} /></button>}
+          {!streaming && !error && (
+            <button style={styles.btnPrimary} onClick={startCamera}>Open Camera</button>
+          )}
+          {streaming && (
+            <div style={styles.snapRow}>
+              {/* Flash toggle */}
+              <button
+                style={{ ...styles.flashBtn, background: flashOn ? BRAND.yellow : "transparent", color: flashOn ? BRAND.greenDark : BRAND.yellow }}
+                onClick={() => setFlashOn(f => !f)}
+              >
+                {flashOn ? "⚡ On" : "⚡ Off"}
+              </button>
+              {/* Snap button */}
+              <button style={styles.btnSnap} onClick={snap}>
+                <span style={styles.snapDot} />
+              </button>
+              <div style={{ width: 60 }} />
+            </div>
+          )}
         </>
       ) : (
         <div style={styles.row}>
@@ -168,7 +235,7 @@ function Lightbox({ matches, startIndex, onClose }) {
 
 function ResultsScreen({ matches, eventName, folderId, onRetry }) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
-  const [folderStatus, setFolderStatus] = useState("idle"); // idle | creating | ready | error
+  const [folderStatus, setFolderStatus] = useState("idle");
   const [folderLink, setFolderLink] = useState(null);
   const guestCounter = useRef(Math.floor(Math.random() * 900) + 100);
 
@@ -217,62 +284,47 @@ function ResultsScreen({ matches, eventName, folderId, onRetry }) {
         <Lightbox matches={matches} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} />
       )}
 
-      {/* Header */}
       <div style={styles.resultsHeader}>
         <h2 style={styles.heading}>Your Photos</h2>
         <p style={styles.subtext}>{matches.length} photo{matches.length > 1 ? "s" : ""} found · Tap to view</p>
       </div>
 
-      {/* Grid */}
       <div style={styles.scrollGrid}>
         {matches.map((match, i) => (
           <div key={i} style={styles.photoCard} onClick={() => setLightboxIndex(i)}>
-            <img
-              src={getImageUrl(match)}
-              alt={`Photo ${i + 1}`}
-              style={styles.photoThumb}
-              onError={(e) => { e.target.style.opacity = "0.3"; }}
-            />
+            <img src={getImageUrl(match)} alt={`Photo ${i + 1}`} style={styles.photoThumb}
+              onError={(e) => { e.target.style.opacity = "0.3"; }} />
             <div style={styles.viewOverlay}>👁 View</div>
           </div>
         ))}
       </div>
 
-      {/* Bottom section */}
       <div style={styles.bottomSection}>
-
-        {/* Get My Photos button */}
         {folderStatus === "idle" && (
           <button style={styles.btnPrimary} onClick={handleGetMyPhotos}>
             📁 Get My Photos
           </button>
         )}
 
-        {/* Creating folder message */}
         {folderStatus === "creating" && (
           <div style={styles.creatingBox}>
-            <div style={styles.spinner}>⏳</div>
+            <div style={{ fontSize: 32 }}>⏳</div>
             <p style={styles.creatingText}>
-              Wait — FISHI is creating your folder,{"\n"}
-              in a few seconds it will automatically open...
+              Wait — F I S H I is creating your folder.{"\n"}It'll open automatically.
             </p>
           </div>
         )}
 
-        {/* Ready - folder link */}
         {folderStatus === "ready" && folderLink && (
           <div style={styles.readyBox}>
             <p style={styles.readyText}>✅ Your folder is ready!</p>
             <button style={styles.btnPrimary} onClick={() => window.open(folderLink, "_blank")}>
               📂 Open My Photos in Drive
             </button>
-            <p style={styles.hintText}>
-              In Google Drive — tap ⋮ menu → Download to save photos to your phone
-            </p>
+            <p style={styles.hintText}>In Google Drive — tap ⋮ → Download to save to your phone</p>
           </div>
         )}
 
-        {/* Error */}
         {folderStatus === "error" && (
           <div style={styles.readyBox}>
             <p style={{ color: "#e05252", fontSize: 14 }}>Something went wrong. Try again.</p>
@@ -280,9 +332,7 @@ function ResultsScreen({ matches, eventName, folderId, onRetry }) {
           </div>
         )}
 
-        <button style={{ ...styles.btnSecondary, marginTop: 8 }} onClick={onRetry}>
-          Search Again
-        </button>
+        <button style={{ ...styles.btnSecondary, marginTop: 8 }} onClick={onRetry}>Search Again</button>
         <p style={{ color: BRAND.gray, fontSize: 12, marginTop: 8 }}>Captured by Fishi Stop Photography</p>
       </div>
     </div>
@@ -349,28 +399,33 @@ const styles = {
   scrollGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, padding: "8px 16px", overflowY: "auto", flex: 1, WebkitOverflowScrolling: "touch" },
   bottomSection: { padding: "12px 16px 16px", flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 },
   creatingBox: { display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "16px", background: BRAND.greenLight, borderRadius: 12, width: "100%" },
-  spinner: { fontSize: 32, animation: "spin 1s linear infinite" },
   creatingText: { color: BRAND.yellow, fontSize: 15, fontWeight: 700, textAlign: "center", whiteSpace: "pre-line", margin: 0 },
   readyBox: { display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "100%" },
   readyText: { color: BRAND.yellow, fontSize: 16, fontWeight: 700, margin: 0 },
   hintText: { color: BRAND.gray, fontSize: 12, textAlign: "center", margin: 0 },
-  logoWrap: { marginBottom: 6 },
-  brand: { color: BRAND.yellow, fontSize: 32, fontWeight: 900, letterSpacing: 8, margin: "0 0 2px", textTransform: "uppercase" },
-  tagline: { color: BRAND.gray, fontSize: 11, letterSpacing: 5, textTransform: "uppercase", margin: "0 0 16px", fontStyle: "italic" },
-  instruction: { color: BRAND.white, textAlign: "center", fontSize: 13, lineHeight: 1.5, margin: "0 0 12px", opacity: 0.85 },
+  logoWrap: { marginBottom: 8 },
+  brandWrap: { display: "flex", flexDirection: "column", alignItems: "center", gap: 0, marginBottom: 4 },
+  brand: { color: BRAND.yellow, fontSize: 52, fontWeight: 900, letterSpacing: 16, margin: 0, fontFamily: "'Playfair Display', 'Georgia', serif", textTransform: "uppercase", lineHeight: 1, textShadow: `0 2px 20px ${BRAND.yellowDim}` },
+  brandSub: { color: BRAND.white, fontSize: 28, fontWeight: 700, letterSpacing: 24, margin: 0, fontFamily: "'Cormorant Garamond', 'Georgia', serif", textTransform: "uppercase", lineHeight: 1, opacity: 0.9 },
+  tagline: { color: BRAND.gray, fontSize: 10, letterSpacing: 4, textTransform: "uppercase", margin: "4px 0 12px", fontStyle: "italic" },
+  divider: { width: 60, height: 1, background: `linear-gradient(to right, transparent, ${BRAND.yellow}, transparent)`, margin: "8px auto 12px", opacity: 0.5 },
+  instruction: { color: BRAND.white, textAlign: "center", fontSize: 13, lineHeight: 1.5, margin: "0 0 16px", opacity: 0.85 },
   btnPrimary: { background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 12, padding: "12px 32px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", maxWidth: 320, marginTop: 4 },
   btnSecondary: { background: "transparent", color: BRAND.yellow, border: `2px solid ${BRAND.yellow}`, borderRadius: 12, padding: "10px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer", width: "100%", maxWidth: 320 },
-  footer: { color: BRAND.gray, fontSize: 12, marginTop: 16, marginBottom: 0, textAlign: "center" },
+  footer: { color: BRAND.gray, fontSize: 12, marginTop: 12, marginBottom: 0, textAlign: "center" },
   backBtn: { alignSelf: "flex-start", background: "transparent", border: "none", color: BRAND.yellow, fontSize: 14, cursor: "pointer", padding: 0, marginBottom: 16 },
   heading: { color: BRAND.yellow, fontSize: 22, fontWeight: 700, margin: "0 0 6px", textAlign: "center" },
   subtext: { color: BRAND.gray, fontSize: 14, textAlign: "center", margin: "0 0 8px", lineHeight: 1.5 },
-  cameraFrame: { position: "relative", width: "100%", maxWidth: 340, aspectRatio: "1/1", borderRadius: 16, overflow: "hidden", background: BRAND.greenDark, border: `2px solid ${BRAND.greenLight}`, marginBottom: 20 },
+  cameraFrame: { position: "relative", width: "100%", maxWidth: 340, aspectRatio: "1/1", borderRadius: 16, overflow: "hidden", background: BRAND.greenDark, border: `2px solid ${BRAND.greenLight}`, marginBottom: 16 },
   cameraView: { width: "100%", height: "100%", objectFit: "cover", display: "block" },
   cameraPlaceholder: { width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 },
   cameraIcon: { fontSize: 48 },
   cameraOverlay: { position: "absolute", inset: 0, border: `3px solid ${BRAND.yellow}`, borderRadius: 16, pointerEvents: "none", opacity: 0.3 },
+  snapRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 20, width: "100%" },
   btnSnap: { background: BRAND.yellow, border: `4px solid ${BRAND.white}`, borderRadius: "50%", width: 70, height: 70, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 0 4px ${BRAND.yellowDim}` },
   snapDot: { width: 28, height: 28, borderRadius: "50%", background: BRAND.white, display: "block" },
+  flashBtn: { border: `2px solid ${BRAND.yellow}`, borderRadius: 20, padding: "8px 14px", fontSize: 13, fontWeight: 700, cursor: "pointer", width: 70 },
+  flashOverlay: { position: "fixed", inset: 0, background: "white", zIndex: 999, opacity: 0.95 },
   row: { display: "flex", gap: 12, width: "100%", maxWidth: 340 },
   progressBar: { width: "100%", maxWidth: 300, height: 6, background: BRAND.greenLight, borderRadius: 99, overflow: "hidden", margin: "16px 0 8px" },
   progressFill: { height: "100%", background: BRAND.yellow, borderRadius: 99, transition: "width 0.3s ease" },
