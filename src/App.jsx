@@ -132,12 +132,11 @@ function LoadingScreen({ progress }) {
   );
 }
 
-function Lightbox({ matches, startIndex, onClose, eventName }) {
+function Lightbox({ matches, startIndex, onClose }) {
   const [current, setCurrent] = useState(startIndex);
   const touchStartX = useRef(null);
 
   const getImageUrl = (match) => `https://drive.google.com/thumbnail?id=${match.file_id}&sz=w1200`;
-
   const prev = () => setCurrent((c) => (c > 0 ? c - 1 : matches.length - 1));
   const next = () => setCurrent((c) => (c < matches.length - 1 ? c + 1 : 0));
 
@@ -149,58 +148,56 @@ function Lightbox({ matches, startIndex, onClose, eventName }) {
     touchStartX.current = null;
   };
 
-  const downloadPhoto = () => {
-    window.open(`https://drive.google.com/uc?export=download&id=${matches[current].file_id}`, "_blank");
-  };
-
   return (
     <div style={styles.lightboxOverlay} onClick={onClose}>
       <div style={styles.lightboxBox} onClick={e => e.stopPropagation()}
         onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-        
-        {/* Close */}
         <button style={styles.lbClose} onClick={onClose}>✕</button>
-
-        {/* Counter */}
         <div style={styles.lbCounter}>{current + 1} / {matches.length}</div>
-
-        {/* Image */}
         <img src={getImageUrl(matches[current])} alt={`Photo ${current + 1}`} style={styles.lbImage} />
-
-        {/* Arrows */}
         {matches.length > 1 && (
           <>
             <button style={{ ...styles.lbArrow, left: 8 }} onClick={prev}>‹</button>
             <button style={{ ...styles.lbArrow, right: 8 }} onClick={next}>›</button>
           </>
         )}
-
-        {/* Download */}
-        <button style={styles.lbDownload} onClick={downloadPhoto}>↓ Download This Photo</button>
       </div>
     </div>
   );
 }
 
-function ResultsScreen({ matches, eventName, onRetry }) {
-  const [selected, setSelected] = useState([]);
+function ResultsScreen({ matches, eventName, folderId, onRetry }) {
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [folderStatus, setFolderStatus] = useState("idle"); // idle | creating | ready | error
+  const [folderLink, setFolderLink] = useState(null);
+  const guestCounter = useRef(Math.floor(Math.random() * 900) + 100);
 
   const getImageUrl = (match) => `https://drive.google.com/thumbnail?id=${match.file_id}&sz=w800`;
 
-  const toggleSelect = (i) => {
-    setSelected((prev) => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]);
-  };
-
-  const selectAll = () => {
-    if (selected.length === matches.length) setSelected([]);
-    else setSelected(matches.map((_, i) => i));
-  };
-
-  const downloadSelected = () => {
-    selected.forEach((i) => {
-      window.open(`https://drive.google.com/uc?export=download&id=${matches[i].file_id}`, "_blank");
-    });
+  const handleGetMyPhotos = async () => {
+    setFolderStatus("creating");
+    try {
+      const res = await fetch("https://fishistop-selfi-backend.onrender.com/create-guest-folder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          file_ids: matches.map(m => m.file_id),
+          guest_number: guestCounter.current,
+          event_name: eventName || "Event",
+          parent_folder_id: folderId,
+        }),
+      });
+      const data = await res.json();
+      if (data.folder_link) {
+        setFolderLink(data.folder_link);
+        setFolderStatus("ready");
+        window.open(data.folder_link, "_blank");
+      } else {
+        setFolderStatus("error");
+      }
+    } catch {
+      setFolderStatus("error");
+    }
   };
 
   if (!matches || matches.length === 0) {
@@ -217,61 +214,76 @@ function ResultsScreen({ matches, eventName, onRetry }) {
   return (
     <div style={styles.resultsContainer}>
       {lightboxIndex !== null && (
-        <Lightbox matches={matches} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} eventName={eventName} />
+        <Lightbox matches={matches} startIndex={lightboxIndex} onClose={() => setLightboxIndex(null)} />
       )}
 
       {/* Header */}
       <div style={styles.resultsHeader}>
         <h2 style={styles.heading}>Your Photos</h2>
         <p style={styles.subtext}>{matches.length} photo{matches.length > 1 ? "s" : ""} found · Tap to view</p>
-
-        {/* Select controls */}
-        <div style={styles.selectBar}>
-          <button style={styles.selectAllBtn} onClick={selectAll}>
-            {selected.length === matches.length ? "Deselect All" : "Select All"}
-          </button>
-          {selected.length > 0 && (
-            <button style={styles.downloadAllBtn} onClick={downloadSelected}>
-              ↓ Download {selected.length} Selected
-            </button>
-          )}
-        </div>
       </div>
 
       {/* Grid */}
       <div style={styles.scrollGrid}>
-        {matches.map((match, i) => {
-          const isSelected = selected.includes(i);
-          return (
-            <div key={i} style={{ ...styles.photoCard, border: isSelected ? `3px solid ${BRAND.yellow}` : "3px solid transparent" }}>
-              <img
-                src={getImageUrl(match)}
-                alt={`Photo ${i + 1}`}
-                style={styles.photoThumb}
-                onClick={() => setLightboxIndex(i)}
-                onError={(e) => { e.target.style.opacity = "0.3"; }}
-              />
-              {/* Select checkbox */}
-              <div style={{ ...styles.checkbox, background: isSelected ? BRAND.yellow : "rgba(0,0,0,0.5)", border: isSelected ? "none" : `2px solid ${BRAND.yellow}` }}
-                onClick={() => toggleSelect(i)}>
-                {isSelected && <span style={{ color: BRAND.greenDark, fontSize: 14, fontWeight: 700 }}>✓</span>}
-              </div>
-              {/* Download button */}
-              <button style={styles.downloadBtn}
-                onClick={() => window.open(`https://drive.google.com/uc?export=download&id=${match.file_id}`, "_blank")}>
-                ↓ Save
-              </button>
-            </div>
-          );
-        })}
+        {matches.map((match, i) => (
+          <div key={i} style={styles.photoCard} onClick={() => setLightboxIndex(i)}>
+            <img
+              src={getImageUrl(match)}
+              alt={`Photo ${i + 1}`}
+              style={styles.photoThumb}
+              onError={(e) => { e.target.style.opacity = "0.3"; }}
+            />
+            <div style={styles.viewOverlay}>👁 View</div>
+          </div>
+        ))}
       </div>
 
-      {/* Footer */}
-      <div style={{ textAlign: "center", padding: "12px 16px", flexShrink: 0 }}>
-        <button style={{ ...styles.btnSecondary, width: "auto", padding: "10px 32px" }} onClick={onRetry}>
+      {/* Bottom section */}
+      <div style={styles.bottomSection}>
+
+        {/* Get My Photos button */}
+        {folderStatus === "idle" && (
+          <button style={styles.btnPrimary} onClick={handleGetMyPhotos}>
+            📁 Get My Photos
+          </button>
+        )}
+
+        {/* Creating folder message */}
+        {folderStatus === "creating" && (
+          <div style={styles.creatingBox}>
+            <div style={styles.spinner}>⏳</div>
+            <p style={styles.creatingText}>
+              Wait — FISHI is creating your folder,{"\n"}
+              in a few seconds it will automatically open...
+            </p>
+          </div>
+        )}
+
+        {/* Ready - folder link */}
+        {folderStatus === "ready" && folderLink && (
+          <div style={styles.readyBox}>
+            <p style={styles.readyText}>✅ Your folder is ready!</p>
+            <button style={styles.btnPrimary} onClick={() => window.open(folderLink, "_blank")}>
+              📂 Open My Photos in Drive
+            </button>
+            <p style={styles.hintText}>
+              In Google Drive — tap ⋮ menu → Download to save photos to your phone
+            </p>
+          </div>
+        )}
+
+        {/* Error */}
+        {folderStatus === "error" && (
+          <div style={styles.readyBox}>
+            <p style={{ color: "#e05252", fontSize: 14 }}>Something went wrong. Try again.</p>
+            <button style={styles.btnSecondary} onClick={() => setFolderStatus("idle")}>Try Again</button>
+          </div>
+        )}
+
+        <button style={{ ...styles.btnSecondary, marginTop: 8 }} onClick={onRetry}>
           Search Again
         </button>
-        <p style={{ color: BRAND.gray, fontSize: 12, marginTop: 10 }}>Captured by Fishi Stop Photography</p>
+        <p style={{ color: BRAND.gray, fontSize: 12, marginTop: 8 }}>Captured by Fishi Stop Photography</p>
       </div>
     </div>
   );
@@ -322,7 +334,7 @@ export default function App() {
         {screen === "welcome" && <WelcomeScreen onStart={() => setScreen("selfie")} />}
         {screen === "selfie" && <SelfieScreen onCapture={handleCapture} onBack={() => setScreen("welcome")} />}
         {screen === "loading" && <LoadingScreen progress={progress} />}
-        {screen === "results" && <ResultsScreen matches={matches} eventName={eventName} onRetry={() => setScreen("selfie")} />}
+        {screen === "results" && <ResultsScreen matches={matches} eventName={eventName} folderId={folderId} onRetry={() => setScreen("selfie")} />}
       </div>
     </div>
   );
@@ -335,15 +347,19 @@ const styles = {
   resultsContainer: { display: "flex", flexDirection: "column", width: "100%", height: "100%", overflow: "hidden" },
   resultsHeader: { padding: "16px 16px 0", textAlign: "center", flexShrink: 0 },
   scrollGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, padding: "8px 16px", overflowY: "auto", flex: 1, WebkitOverflowScrolling: "touch" },
-  selectBar: { display: "flex", gap: 8, justifyContent: "center", alignItems: "center", marginBottom: 8, flexWrap: "wrap" },
-  selectAllBtn: { background: "transparent", border: `1px solid ${BRAND.yellow}`, color: BRAND.yellow, borderRadius: 8, padding: "6px 16px", fontSize: 13, cursor: "pointer" },
-  downloadAllBtn: { background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 8, padding: "6px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer" },
+  bottomSection: { padding: "12px 16px 16px", flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 },
+  creatingBox: { display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "16px", background: BRAND.greenLight, borderRadius: 12, width: "100%" },
+  spinner: { fontSize: 32, animation: "spin 1s linear infinite" },
+  creatingText: { color: BRAND.yellow, fontSize: 15, fontWeight: 700, textAlign: "center", whiteSpace: "pre-line", margin: 0 },
+  readyBox: { display: "flex", flexDirection: "column", alignItems: "center", gap: 10, width: "100%" },
+  readyText: { color: BRAND.yellow, fontSize: 16, fontWeight: 700, margin: 0 },
+  hintText: { color: BRAND.gray, fontSize: 12, textAlign: "center", margin: 0 },
   logoWrap: { marginBottom: 6 },
   brand: { color: BRAND.yellow, fontSize: 32, fontWeight: 900, letterSpacing: 8, margin: "0 0 2px", textTransform: "uppercase" },
   tagline: { color: BRAND.gray, fontSize: 11, letterSpacing: 5, textTransform: "uppercase", margin: "0 0 16px", fontStyle: "italic" },
   instruction: { color: BRAND.white, textAlign: "center", fontSize: 13, lineHeight: 1.5, margin: "0 0 12px", opacity: 0.85 },
-  btnPrimary: { background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 12, padding: "12px 32px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", maxWidth: 300, marginTop: 4 },
-  btnSecondary: { background: "transparent", color: BRAND.yellow, border: `2px solid ${BRAND.yellow}`, borderRadius: 12, padding: "12px 24px", fontSize: 15, fontWeight: 600, cursor: "pointer", flex: 1 },
+  btnPrimary: { background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 12, padding: "12px 32px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", maxWidth: 320, marginTop: 4 },
+  btnSecondary: { background: "transparent", color: BRAND.yellow, border: `2px solid ${BRAND.yellow}`, borderRadius: 12, padding: "10px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer", width: "100%", maxWidth: 320 },
   footer: { color: BRAND.gray, fontSize: 12, marginTop: 16, marginBottom: 0, textAlign: "center" },
   backBtn: { alignSelf: "flex-start", background: "transparent", border: "none", color: BRAND.yellow, fontSize: 14, cursor: "pointer", padding: 0, marginBottom: 16 },
   heading: { color: BRAND.yellow, fontSize: 22, fontWeight: 700, margin: "0 0 6px", textAlign: "center" },
@@ -360,13 +376,11 @@ const styles = {
   progressFill: { height: "100%", background: BRAND.yellow, borderRadius: 99, transition: "width 0.3s ease" },
   photoCard: { position: "relative", borderRadius: 10, overflow: "hidden", background: BRAND.greenDark, cursor: "pointer", aspectRatio: "3/4" },
   photoThumb: { width: "100%", height: "100%", objectFit: "cover", display: "block" },
-  checkbox: { position: "absolute", top: 8, left: 8, width: 26, height: 26, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" },
-  downloadBtn: { position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(18,38,18,0.9)", color: BRAND.yellow, border: "none", padding: "8px 0", fontSize: 13, fontWeight: 600, cursor: "pointer" },
+  viewOverlay: { position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(18,38,18,0.85)", color: BRAND.yellow, padding: "6px 0", fontSize: 12, fontWeight: 600, textAlign: "center" },
   lightboxOverlay: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.95)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" },
   lightboxBox: { position: "relative", width: "95vw", height: "85vh", maxWidth: 500, display: "flex", alignItems: "center", justifyContent: "center" },
   lbImage: { width: "100%", height: "100%", objectFit: "contain" },
   lbClose: { position: "absolute", top: -44, right: 0, background: "transparent", border: "none", color: BRAND.yellow, fontSize: 28, cursor: "pointer", zIndex: 10 },
   lbCounter: { position: "absolute", top: -44, left: 0, color: BRAND.yellow, fontSize: 14 },
   lbArrow: { position: "absolute", top: "50%", transform: "translateY(-50%)", background: "rgba(245,200,66,0.2)", border: `1px solid ${BRAND.yellow}`, color: BRAND.yellow, borderRadius: "50%", width: 40, height: 40, fontSize: 24, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
-  lbDownload: { position: "absolute", bottom: -52, left: "50%", transform: "translateX(-50%)", background: BRAND.yellow, color: BRAND.greenDark, border: "none", borderRadius: 10, padding: "12px 36px", fontWeight: 700, fontSize: 15, cursor: "pointer", whiteSpace: "nowrap" },
 };
