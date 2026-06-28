@@ -310,7 +310,7 @@ function ResultsScreen({ matches, eventName, folderId, onRetry }) {
           <div style={styles.creatingBox}>
             <div style={{ fontSize: 32 }}>⏳</div>
             <p style={styles.creatingText}>
-              Wait —   F I S H I   is creating your folder.{"\n"}It'll open automatically.
+              Wait —   F I S H I   is creating your folder.{"\n"}will open automatically.
             </p>
           </div>
         )}
